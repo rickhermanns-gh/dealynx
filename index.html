@@ -3,238 +3,223 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealynx — Spoor de deal op</title>
+  <title>Dealynx — Spoor de deal op | Powered by SalesHuys</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --void:       #070B12;
-      --dark:       #0C1120;
-      --surface:    #111827;
-      --surface-2:  #161D2E;
-      --teal:       #00E5C3;
-      --teal-mid:   #00C4A8;
-      --teal-dim:   rgba(0,229,195,0.10);
-      --teal-glow:  rgba(0,229,195,0.22);
-      --teal-pale:  rgba(0,229,195,0.06);
-      --white:      #EEF4FF;
-      --text:       #B8CCE8;
-      --muted:      #4E6480;
-      --border:     rgba(0,229,195,0.10);
-      --border-dim: rgba(255,255,255,0.05);
+      /* SalesHuys brand palette */
+      --sh-navy:       #1C3A6A;
+      --sh-navy-dark:  #152D55;
+      --sh-navy-mid:   #254E8A;
+      --sh-teal:       #2EB5AF;
+      --sh-teal-mid:   #4AAFB1;
+      --sh-teal-lt:    #5BBFC0;
+      --sh-blue:       #4A7DB5;
+      --sh-blue-lt:    #5A8EC5;
+      --sh-gradient:   linear-gradient(135deg, #4AAFB1 0%, #4A7DB5 100%);
+      --sh-gradient-h: linear-gradient(135deg, #5BBFC0 0%, #5A8EC5 100%);
+
+      /* Supporting */
+      --white:     #FFFFFF;
+      --cream:     #F5F7FA;
+      --light:     #EBF0F8;
+      --text:      #333333;
+      --muted:     #666666;
+      --border:    #DDE4EF;
+      --card-shadow: 0 4px 24px rgba(28, 58, 106, 0.10);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--void);
+      font-family: 'Open Sans', 'Helvetica Neue', Verdana, sans-serif;
+      background: var(--white);
       color: var(--text);
       overflow-x: hidden;
     }
 
-    /* Custom cursor crosshair feel */
-    ::selection { background: var(--teal-glow); color: var(--teal); }
+    ::selection { background: rgba(78,175,177,0.2); color: var(--sh-navy); }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--sh-navy-dark);
+      padding: 8px 48px;
+      display: flex; align-items: center; justify-content: flex-end; gap: 24px;
+    }
+    .topbar a {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .topbar a:hover { color: var(--sh-teal-lt); }
+    .topbar-dot { width: 4px; height: 4px; background: rgba(255,255,255,0.25); border-radius: 50%; }
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      background: rgba(7,11,18,0.92);
-      backdrop-filter: blur(16px);
+      position: sticky; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--white);
       border-bottom: 1px solid var(--border);
-      padding: 0 48px; height: 64px;
+      padding: 0 48px; height: 72px;
       display: flex; align-items: center; justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(28, 58, 106, 0.08);
     }
     .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 21px; font-weight: 800;
-      color: var(--white);
-      display: flex; align-items: center; gap: 10px;
-      letter-spacing: -0.3px;
+      display: flex; align-items: center; gap: 12px;
     }
-    /* Lynx eye logo mark */
-    .nav-logo-mark {
-      width: 28px; height: 28px;
-      position: relative; display: flex; align-items: center; justify-content: center;
+    /* Lynx eye mark in SalesHuys teal */
+    .nav-logo-mark { width: 36px; height: 36px; }
+    .nav-brand {
+      display: flex; flex-direction: column;
+      font-size: 22px; font-weight: 800; line-height: 1;
+      letter-spacing: -0.5px;
     }
-    .nav-logo-mark svg { width: 28px; height: 28px; }
-    .nav-logo span { color: var(--teal); }
+    .nav-brand .deal { color: var(--sh-navy); }
+    .nav-brand .lynx { color: var(--sh-teal); }
+    .nav-poweredby {
+      font-size: 9px; font-weight: 600; color: var(--muted);
+      letter-spacing: 0.8px; text-transform: uppercase; margin-top: 2px;
+    }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
-      font-size: 13px; font-weight: 500;
-      color: var(--muted); text-decoration: none;
-      transition: color 0.2s; letter-spacing: 0.3px;
+      font-size: 13px; font-weight: 600; color: var(--sh-navy);
+      text-decoration: none; transition: color 0.2s;
+      padding-bottom: 2px; border-bottom: 2px solid transparent;
     }
-    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover { color: var(--sh-teal); border-bottom-color: var(--sh-teal); }
     .nav-cta {
-      background: transparent;
-      border: 1px solid var(--teal);
-      color: var(--teal);
-      font-family: 'Syne', sans-serif;
-      font-size: 12px; font-weight: 700;
-      padding: 8px 20px; border-radius: 4px;
+      background: var(--sh-gradient);
+      color: var(--white);
+      font-size: 13px; font-weight: 700;
+      padding: 10px 22px; border-radius: 4px;
       text-decoration: none;
-      letter-spacing: 0.8px; text-transform: uppercase;
       transition: all 0.2s;
-      box-shadow: 0 0 12px rgba(0,229,195,0);
+      box-shadow: 0 3px 12px rgba(74,175,177,0.3);
     }
-    .nav-cta:hover {
-      background: var(--teal-dim);
-      box-shadow: 0 0 20px var(--teal-glow);
-    }
+    .nav-cta:hover { background: var(--sh-gradient-h); box-shadow: 0 5px 18px rgba(74,175,177,0.4); transform: translateY(-1px); }
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      background: var(--void);
+      background: var(--sh-gradient);
+      min-height: 88vh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 120px 48px 100px;
+      padding: 80px 48px 100px;
       position: relative; overflow: hidden;
     }
 
-    /* Diagonal scan lines */
+    /* Subtle pattern overlay */
     .hero::before {
       content: '';
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(135deg, rgba(0,229,195,0.03) 1px, transparent 1px),
-        linear-gradient(45deg, rgba(0,229,195,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 56px 56px;
       pointer-events: none;
     }
 
-    /* Teal glow orb */
-    .hero-orb {
-      position: absolute;
-      top: 15%; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 500px;
-      background: radial-gradient(ellipse, rgba(0,229,195,0.08) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    /* Tracking circle accent */
-    .hero-ring {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; height: 600px;
-      border: 1px solid rgba(0,229,195,0.04);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .hero-ring-2 {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 900px; height: 900px;
-      border: 1px solid rgba(0,229,195,0.025);
-      border-radius: 50%;
+    /* Soft vignette bottom */
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, rgba(28,58,106,0.15));
       pointer-events: none;
     }
 
     .hero-inner {
       position: relative; z-index: 2;
-      text-align: center; max-width: 800px;
+      text-align: center; max-width: 780px;
     }
 
-    .hero-badge {
+    .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px;
-      background: var(--teal-pale);
-      border: 1px solid var(--border);
-      color: var(--teal); font-size: 11px; font-weight: 600;
-      padding: 6px 16px; border-radius: 2px; margin-bottom: 32px;
-      letter-spacing: 1.5px; text-transform: uppercase;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      font-size: 11px; font-weight: 700;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 28px;
+      letter-spacing: 1px; text-transform: uppercase;
       opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
-      font-family: 'Syne', sans-serif;
     }
-    .hero-badge-pulse {
-      width: 6px; height: 6px;
-      background: var(--teal); border-radius: 50%;
-      animation: blink 1.8s infinite;
-      box-shadow: 0 0 6px var(--teal);
+    .hero-eyebrow-dot {
+      width: 6px; height: 6px; background: var(--white);
+      border-radius: 50%; animation: pulse 2s infinite;
+      box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
     }
-    @keyframes blink { 0%,100%{opacity:1;box-shadow:0 0 6px var(--teal)} 50%{opacity:0.3;box-shadow:none} }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+    }
 
     .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(48px, 7vw, 84px);
-      color: var(--white); line-height: 1.0;
-      font-weight: 800;
-      margin-bottom: 8px;
-      letter-spacing: -2px;
+      font-size: clamp(44px, 6.5vw, 76px);
+      font-weight: 800; color: var(--white);
+      line-height: 1.05; margin-bottom: 10px;
+      text-shadow: 0 2px 20px rgba(28,58,106,0.2);
       opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
     }
-    .hero h1 .accent { color: var(--teal); }
-    .hero-eyeline {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(48px, 7vw, 84px);
-      font-weight: 800;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(0,229,195,0.3);
-      line-height: 1.0;
-      letter-spacing: -2px;
-      margin-bottom: 32px;
+    .hero-h1-line2 {
+      font-size: clamp(44px, 6.5vw, 76px);
+      font-weight: 300; color: rgba(255,255,255,0.85);
+      font-style: italic; line-height: 1.05; margin-bottom: 32px;
+      text-shadow: 0 2px 20px rgba(28,58,106,0.2);
       opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
     }
 
     .hero-sub {
-      font-size: 18px; font-weight: 300; color: var(--text);
-      line-height: 1.7; max-width: 520px; margin: 0 auto 44px;
+      font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.88);
+      line-height: 1.75; max-width: 540px; margin: 0 auto 44px;
       opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
     }
-    .hero-sub strong { color: var(--teal); font-weight: 500; }
 
     .hero-actions {
       display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
       opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
     }
-    .btn-primary {
-      background: var(--teal); color: var(--void);
-      font-family: 'Syne', sans-serif;
-      font-size: 13px; font-weight: 700;
+    .btn-white {
+      background: var(--white); color: var(--sh-navy);
+      font-size: 14px; font-weight: 700;
       padding: 14px 32px; border-radius: 4px;
       text-decoration: none; transition: all 0.2s;
-      letter-spacing: 0.5px; text-transform: uppercase;
-      box-shadow: 0 0 24px rgba(0,229,195,0.25);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 40px rgba(0,229,195,0.4);
-    }
-    .btn-ghost {
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-outline-white {
       background: transparent; color: var(--white);
-      font-family: 'Syne', sans-serif;
-      font-size: 13px; font-weight: 600;
+      font-size: 14px; font-weight: 600;
       padding: 14px 32px; border-radius: 4px;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.12);
-      letter-spacing: 0.5px; text-transform: uppercase;
+      border: 2px solid rgba(255,255,255,0.6);
       transition: all 0.2s;
     }
-    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
 
     /* Stats strip */
     .hero-stats {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      border-top: 1px solid var(--border-dim);
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      background: var(--sh-navy);
       display: flex; justify-content: center;
       opacity: 0; animation: fadeUp 0.7s 0.9s forwards;
     }
     .hero-stat {
-      padding: 22px 56px;
-      border-right: 1px solid var(--border-dim);
+      padding: 20px 56px;
+      border-right: 1px solid rgba(255,255,255,0.08);
       text-align: center;
     }
     .hero-stat:last-child { border-right: none; }
     .hero-stat-num {
-      font-family: 'Syne', sans-serif;
       font-size: 26px; font-weight: 800;
-      color: var(--teal);
-      text-shadow: 0 0 20px var(--teal-glow);
+      color: var(--sh-teal-lt);
     }
-    .hero-stat-lbl { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+    .hero-stat-lbl {
+      font-size: 11px; color: rgba(255,255,255,0.5);
+      margin-top: 3px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
@@ -242,36 +227,26 @@
     }
 
     /* ── SECTION BASE ── */
-    section { padding: 100px 48px; }
+    section { padding: 88px 48px; }
     .section-eyebrow {
-      font-family: 'Syne', sans-serif;
-      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--teal);
-      margin-bottom: 14px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .section-eyebrow::before {
-      content: '';
-      display: inline-block; width: 24px; height: 1px;
-      background: var(--teal);
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--sh-teal);
+      margin-bottom: 12px;
     }
     .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(34px, 4vw, 50px);
-      color: var(--white); line-height: 1.1;
-      font-weight: 800; letter-spacing: -1px;
-      margin-bottom: 18px;
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 800; color: var(--sh-navy); line-height: 1.15;
+      margin-bottom: 16px;
     }
     .section-sub {
-      font-size: 17px; font-weight: 300; color: var(--text);
-      line-height: 1.75; max-width: 540px;
+      font-size: 17px; font-weight: 400; color: var(--muted);
+      line-height: 1.75; max-width: 560px;
     }
-    .section-header { text-align: center; margin-bottom: 72px; }
-    .section-header .section-eyebrow { justify-content: center; }
+    .section-header { text-align: center; margin-bottom: 64px; }
     .section-header .section-sub { margin: 0 auto; }
 
     /* ── HOW IT WORKS ── */
-    .how { background: var(--dark); }
+    .how { background: var(--cream); }
     .steps {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 0; max-width: 960px; margin: 0 auto;
@@ -279,232 +254,192 @@
     }
     .steps::before {
       content: '';
-      position: absolute; top: 26px;
-      left: calc(16.67% + 14px); right: calc(16.67% + 14px);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal-mid), transparent);
-      opacity: 0.3;
+      position: absolute; top: 30px;
+      left: calc(16.67% + 18px); right: calc(16.67% + 18px);
+      height: 2px;
+      background: var(--sh-gradient);
+      opacity: 0.35;
     }
-    .step { padding: 0 36px; text-align: center; }
+    .step { padding: 0 32px; text-align: center; }
     .step-num {
-      width: 52px; height: 52px;
-      border: 1px solid var(--teal);
-      border-radius: 2px;
-      background: var(--teal-dim);
-      color: var(--teal);
-      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: var(--sh-gradient);
+      color: var(--white);
+      font-size: 20px; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      position: relative; z-index: 1;
-      box-shadow: 0 0 20px rgba(0,229,195,0.12);
+      margin: 0 auto 22px; position: relative; z-index: 1;
+      box-shadow: 0 4px 16px rgba(74,175,177,0.35), 0 0 0 6px var(--cream);
     }
     .step h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px; font-weight: 700;
-      color: var(--white); margin-bottom: 12px;
-      letter-spacing: -0.2px;
+      font-size: 16px; font-weight: 700; color: var(--sh-navy);
+      margin-bottom: 10px;
     }
     .step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
     /* ── TOOLS GRID ── */
-    .tools { background: var(--void); }
+    .tools { background: var(--white); }
     .tools-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 2px; max-width: 1040px; margin: 0 auto;
-      background: var(--border-dim);
-      border: 1px solid var(--border-dim);
+      gap: 24px; max-width: 1040px; margin: 0 auto;
     }
     .tool-card {
-      background: var(--dark);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       padding: 36px;
       transition: all 0.25s;
       position: relative; overflow: hidden;
       text-decoration: none; color: inherit;
       display: block;
+      box-shadow: var(--card-shadow);
     }
-    /* Corner accent */
+    /* Top gradient accent bar */
     .tool-card::before {
       content: '';
-      position: absolute; top: 0; left: 0;
-      width: 40px; height: 40px;
-      border-top: 2px solid var(--teal);
-      border-left: 2px solid var(--teal);
-      opacity: 0;
-      transition: opacity 0.3s;
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--sh-gradient);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
     }
-    .tool-card::after {
-      content: '';
-      position: absolute; bottom: 0; right: 0;
-      width: 40px; height: 40px;
-      border-bottom: 2px solid var(--teal);
-      border-right: 2px solid var(--teal);
-      opacity: 0;
-      transition: opacity 0.3s;
+    .tool-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(28, 58, 106, 0.14);
+      border-color: rgba(74,175,177,0.3);
     }
-    .tool-card:hover { background: var(--surface); }
-    .tool-card:hover::before,
-    .tool-card:hover::after { opacity: 1; }
+    .tool-card:hover::before { transform: scaleX(1); }
 
     .tool-icon {
-      width: 52px; height: 52px;
+      width: 56px; height: 56px;
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 20px;
     }
     .tool-tag {
       display: inline-flex; align-items: center; gap: 6px;
-      font-family: 'Syne', sans-serif;
-      font-size: 10px; font-weight: 700; letter-spacing: 1px;
-      padding: 3px 10px; border-radius: 2px; margin-bottom: 16px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
+      padding: 4px 10px; border-radius: 20px; margin-bottom: 14px;
       text-transform: uppercase;
     }
     .tool-tag.live {
-      background: rgba(0,229,195,0.08);
-      border: 1px solid rgba(0,229,195,0.2);
-      color: var(--teal);
+      background: rgba(46,181,175,0.1);
+      border: 1px solid rgba(46,181,175,0.3);
+      color: #1A9994;
     }
     .tool-tag.live::before {
       content: '';
-      display: inline-block; width: 5px; height: 5px;
-      border-radius: 50%; background: var(--teal);
-      box-shadow: 0 0 6px var(--teal);
+      display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--sh-teal);
     }
     .tool-tag.coming {
-      background: rgba(255,200,80,0.06);
-      border: 1px solid rgba(255,200,80,0.15);
-      color: #FFC850;
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.25);
+      color: #B45309;
     }
 
     .tool-card h3 {
-      font-family: 'Syne', sans-serif;
       font-size: 22px; font-weight: 800;
-      color: var(--white); margin-bottom: 10px;
-      letter-spacing: -0.5px;
+      color: var(--sh-navy); margin-bottom: 10px;
     }
-    .tool-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+    .tool-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
 
-    .tool-features { list-style: none; margin-bottom: 26px; }
+    .tool-features { list-style: none; margin-bottom: 24px; }
     .tool-features li {
       font-size: 13px; color: var(--text);
       padding: 5px 0; display: flex; align-items: center; gap: 10px;
     }
     .tool-features li::before {
-      content: '›';
-      color: var(--teal); font-size: 16px; font-weight: 700;
-      line-height: 1; flex-shrink: 0;
+      content: '';
+      display: inline-block; width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(74,175,177,0.12);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4 9l3.5 3.5L14 5' stroke='%232EB5AF' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      flex-shrink: 0;
     }
     .tool-link {
       display: inline-flex; align-items: center; gap: 8px;
-      font-family: 'Syne', sans-serif;
-      font-size: 12px; font-weight: 700;
-      color: var(--teal); text-decoration: none;
-      letter-spacing: 0.8px; text-transform: uppercase;
-      transition: gap 0.2s;
+      font-size: 14px; font-weight: 700; color: var(--sh-navy);
+      text-decoration: none; transition: all 0.2s;
     }
-    .tool-link:hover { gap: 12px; }
+    .tool-link:hover { color: var(--sh-teal); gap: 12px; }
 
-    /* ── MANIFESTO QUOTE ── */
-    .manifesto {
-      background: var(--dark);
+    /* ── DIVIDER BANNER ── */
+    .quote-banner {
+      background: var(--sh-navy);
+      padding: 80px 48px;
       text-align: center;
-      padding: 96px 48px;
       position: relative; overflow: hidden;
     }
-    .manifesto::before {
-      content: '"';
-      position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
-      font-family: 'Syne', sans-serif; font-size: 280px; font-weight: 800;
-      color: rgba(0,229,195,0.03); line-height: 1;
-      pointer-events: none; user-select: none;
+    .quote-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--sh-gradient);
+      opacity: 0.15;
     }
-    .manifesto-text {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(26px, 3.5vw, 42px);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.3; max-width: 720px;
-      margin: 0 auto 24px;
-      letter-spacing: -0.5px;
-      position: relative; z-index: 1;
+    .quote-banner-inner { position: relative; z-index: 1; }
+    .quote-banner-text {
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 800; color: var(--white);
+      line-height: 1.35; max-width: 680px; margin: 0 auto 18px;
     }
-    .manifesto-text .accent { color: var(--teal); }
-    .manifesto-author {
-      font-size: 13px; color: var(--muted);
-      font-weight: 500; letter-spacing: 0.5px;
-      position: relative; z-index: 1;
+    .quote-banner-text em {
+      font-style: italic; font-weight: 300;
+      color: var(--sh-teal-lt);
+    }
+    .quote-banner-author {
+      font-size: 13px; color: rgba(255,255,255,0.45);
+      font-weight: 600; letter-spacing: 0.5px;
     }
 
-    /* ── CTA / DEMO ── */
-    .cta-section { background: var(--void); text-align: center; padding: 100px 48px; }
-    .cta-head { max-width: 680px; margin: 0 auto 48px; }
+    /* ── CTA DEMO ── */
+    .cta-section { background: var(--cream); padding: 88px 48px; text-align: center; }
+    .cta-header { max-width: 680px; margin: 0 auto 48px; }
     .cal-wrapper {
       max-width: 920px; margin: 0 auto;
-      background: var(--dark);
+      background: var(--white);
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 8px 40px rgba(28,58,106,0.12);
       border: 1px solid var(--border);
-      border-radius: 4px; overflow: hidden;
-      box-shadow: 0 0 60px rgba(0,229,195,0.06);
       position: relative;
     }
-    /* Corner accents on cal wrapper */
+    /* Top accent */
     .cal-wrapper::before {
       content: '';
-      position: absolute; top: 0; left: 0;
-      width: 32px; height: 32px;
-      border-top: 2px solid var(--teal);
-      border-left: 2px solid var(--teal);
-      z-index: 1; pointer-events: none;
-    }
-    .cal-wrapper::after {
-      content: '';
-      position: absolute; bottom: 0; right: 0;
-      width: 32px; height: 32px;
-      border-bottom: 2px solid var(--teal);
-      border-right: 2px solid var(--teal);
-      z-index: 1; pointer-events: none;
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--sh-gradient);
+      z-index: 1;
     }
     .cal-wrapper iframe { display: block; width: 100%; height: 700px; border: none; }
     .cta-foot {
       margin-top: 28px; font-size: 13px; color: var(--muted);
     }
     .cta-foot a {
-      color: var(--teal); font-weight: 600; text-decoration: none;
+      color: var(--sh-teal); font-weight: 700; text-decoration: none;
       transition: opacity 0.2s;
     }
     .cta-foot a:hover { opacity: 0.75; }
 
     /* ── FOOTER ── */
     footer {
-      background: var(--dark);
-      border-top: 1px solid var(--border-dim);
+      background: var(--sh-navy);
       padding: 28px 48px;
       display: flex; align-items: center; justify-content: space-between;
+      border-top: 3px solid;
+      border-image: var(--sh-gradient) 1;
     }
-    .footer-logo {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px; font-weight: 800;
-      color: var(--muted);
-      display: flex; align-items: center; gap: 8px;
+    .footer-left {
+      display: flex; align-items: center; gap: 12px;
     }
-    .footer-logo span { color: var(--teal); }
-    .footer-note { font-size: 12px; color: var(--muted); opacity: 0.6; }
-
-    /* ── SCAN LINE ANIMATION ── */
-    @keyframes scanline {
-      0% { top: -10%; }
-      100% { top: 110%; }
+    .footer-brand {
+      font-size: 16px; font-weight: 800; color: var(--white); line-height: 1;
     }
-    .hero-scan {
-      position: absolute; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: 0.2;
-      animation: scanline 6s linear infinite;
-      pointer-events: none;
-    }
+    .footer-brand span { color: var(--sh-teal-lt); }
+    .footer-powered { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+    .footer-note { font-size: 12px; color: rgba(255,255,255,0.3); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
+      .topbar { display: none; }
       nav { padding: 0 20px; }
       .nav-links { display: none; }
-      section { padding: 64px 20px; }
+      section { padding: 60px 20px; }
       .tools-grid { grid-template-columns: 1fr; }
       .steps { grid-template-columns: 1fr; gap: 40px; }
       .steps::before { display: none; }
@@ -515,18 +450,36 @@
 </head>
 <body>
 
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <a href="mailto:info@saleshuys.nl">✉ info@saleshuys.nl</a>
+    <div class="topbar-dot"></div>
+    <a href="tel:+31344601180">📞 +31 344 · 601180</a>
+    <div class="topbar-dot"></div>
+    <a href="https://www.saleshuys.nl" target="_blank">← SalesHuys.nl</a>
+  </div>
+
   <!-- NAV -->
   <nav>
     <div class="nav-logo">
-      <div class="nav-logo-mark">
-        <!-- Lynx eye mark: diamond with slit -->
-        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 2 L26 14 L14 26 L2 14 Z" stroke="#00E5C3" stroke-width="1.5" fill="rgba(0,229,195,0.08)"/>
-          <ellipse cx="14" cy="14" rx="3" ry="6" fill="#00E5C3" opacity="0.9"/>
-          <line x1="14" y1="6" x2="14" y2="22" stroke="#070B12" stroke-width="1.5"/>
-        </svg>
+      <!-- Lynx eye mark in SalesHuys teal/navy -->
+      <svg class="nav-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Diamond shape, top navy, bottom teal - mirrors SalesHuys S-mark dual tone -->
+        <path d="M18 2 L34 18 L18 34 L2 18 Z" stroke="#1C3A6A" stroke-width="2" fill="rgba(28,58,106,0.06)"/>
+        <path d="M18 2 L34 18 L18 18 Z" fill="rgba(28,58,106,0.15)"/>
+        <path d="M18 18 L34 18 L18 34 Z" fill="rgba(46,181,175,0.2)"/>
+        <!-- Lynx slit pupil -->
+        <ellipse cx="18" cy="18" rx="4" ry="8" fill="#2EB5AF" opacity="0.9"/>
+        <line x1="18" y1="8" x2="18" y2="28" stroke="#152D55" stroke-width="2"/>
+        <!-- Highlight -->
+        <circle cx="20" cy="14" r="1.5" fill="white" opacity="0.6"/>
+      </svg>
+      <div>
+        <div class="nav-brand">
+          <span><span class="deal">Deal</span><span class="lynx">ynx</span></span>
+        </div>
+        <div class="nav-poweredby">powered by SalesHuys · Maurik</div>
       </div>
-      Deal<span>ynx</span>
     </div>
     <div class="nav-links">
       <a href="#tools">Tools</a>
@@ -538,24 +491,19 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-orb"></div>
-    <div class="hero-ring"></div>
-    <div class="hero-ring-2"></div>
-    <div class="hero-scan"></div>
-
     <div class="hero-inner">
-      <div class="hero-badge">
-        <div class="hero-badge-pulse"></div>
-        Dealynx AI Suite — vier tools, één jager
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        Dealynx AI Suite — vier tools, één missie
       </div>
-      <h1>Spoor de deal op.<br><span class="accent">Voordat anderen</span></h1>
-      <div class="hero-eyeline">het zien.</div>
+      <h1>Spoor de deal op.</h1>
+      <div class="hero-h1-line2">Voordat anderen het zien.</div>
       <p class="hero-sub">
-        Vier AI-tools voor B2B accountmanagers met <strong>scherpe ogen</strong> — van lead tot deal tot LinkedIn post. Geen ruis. Alleen signalen.
+        Vier AI-tools voor B2B accountmanagers met scherpe ogen — van lead tot deal tot LinkedIn post. Minder ruis. Meer omzet.
       </p>
       <div class="hero-actions">
-        <a href="#tools" class="btn-primary">Ontdek de suite</a>
-        <a href="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min" target="_blank" class="btn-ghost">Plan een demo</a>
+        <a href="#tools" class="btn-white">Ontdek de suite</a>
+        <a href="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min" target="_blank" class="btn-outline-white">Plan een demo</a>
       </div>
     </div>
 
@@ -583,22 +531,22 @@
   <section class="how" id="hoe-het-werkt">
     <div class="section-header">
       <div class="section-eyebrow">Werkwijze</div>
-      <h2 class="section-title">Van lead tot post<br>in minuten</h2>
+      <h2 class="section-title">Van lead tot post in minuten</h2>
       <p class="section-sub">Dealynx neemt het repetitieve werk over — zodat jij je tijd steekt in het enige wat telt: gesprekken.</p>
     </div>
     <div class="steps">
       <div class="step">
-        <div class="step-num">01</div>
+        <div class="step-num">1</div>
         <h3>Voer je data in</h3>
         <p>Leads, klantbezoeken of pipeline-deals — jij levert de context, de AI doet de analyse.</p>
       </div>
       <div class="step">
-        <div class="step-num">02</div>
+        <div class="step-num">2</div>
         <h3>AI genereert inzichten</h3>
         <p>Prioriteiten, risico's, pitches en posts — gegenereerd in seconden op basis van jouw informatie.</p>
       </div>
       <div class="step">
-        <div class="step-num">03</div>
+        <div class="step-num">3</div>
         <h3>Jij neemt actie</h3>
         <p>Bellen, debriefen, CRM bijwerken of posten op LinkedIn — alles klaar om direct te gebruiken.</p>
       </div>
@@ -609,7 +557,7 @@
   <section class="tools" id="tools">
     <div class="section-header">
       <div class="section-eyebrow">De Suite</div>
-      <h2 class="section-title">Vier tools.<br>Eén accountmanager.</h2>
+      <h2 class="section-title">Vier tools. Eén accountmanager.</h2>
       <p class="section-sub">Elke tool lost één concreet pijnpunt op — samen vormen ze een complete AI-werkdag.</p>
     </div>
 
@@ -618,11 +566,11 @@
       <!-- LeadFlow -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/leadflow" target="_blank">
         <div class="tool-icon">
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="52" height="52" rx="4" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.15)" stroke-width="1"/>
-            <circle cx="22" cy="19" r="6" stroke="#00E5C3" stroke-width="1.5"/>
-            <path d="M10 38c0-6.627 5.373-12 12-12h1" stroke="#00E5C3" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
-            <path d="M34 12l-5 9h4.5L29 32l10-12h-5.5l5.5-8z" fill="#00E5C3"/>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
+            <circle cx="24" cy="20" r="6" stroke="#1C3A6A" stroke-width="1.8"/>
+            <path d="M12 40c0-6.627 5.373-12 12-12h1" stroke="#1C3A6A" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
+            <path d="M34 12l-5 9h4.5L29 32l10-12h-5.5l5.5-8z" fill="#2EB5AF"/>
           </svg>
         </div>
         <span class="tool-tag live">Live</span>
@@ -640,16 +588,16 @@
       <!-- VisitFlow -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/visitflow" target="_blank">
         <div class="tool-icon">
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="52" height="52" rx="4" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.15)" stroke-width="1"/>
-            <rect x="13" y="11" width="20" height="26" rx="2" stroke="#00E5C3" stroke-width="1.5" opacity="0.6"/>
-            <path d="M13 17h20" stroke="#00E5C3" stroke-width="1" opacity="0.3"/>
-            <path d="M18 23l2.5 2.5L25 21" stroke="#00E5C3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 30l2.5 2.5L25 28" stroke="#00E5C3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="36" cy="37" r="8" fill="#00E5C3"/>
-            <rect x="33.5" y="32.5" width="5" height="7" rx="2.5" fill="#070B12"/>
-            <path d="M31.5 38.5c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5" stroke="#070B12" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M36 43v2" stroke="#070B12" stroke-width="1.5" stroke-linecap="round"/>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
+            <rect x="13" y="11" width="22" height="28" rx="3" stroke="#1C3A6A" stroke-width="1.8" opacity="0.7"/>
+            <path d="M13 17h22" stroke="#1C3A6A" stroke-width="1" opacity="0.3"/>
+            <path d="M18 23l2.5 2.5L25 21" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 30l2.5 2.5L25 28" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="36" cy="37" r="9" fill="#1C3A6A"/>
+            <rect x="33.5" y="32" width="5" height="7" rx="2.5" fill="white"/>
+            <path d="M31.5 38c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M36 43v2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </div>
         <span class="tool-tag live">Live</span>
@@ -667,12 +615,11 @@
       <!-- PipelineAI -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/pipelineai" target="_blank">
         <div class="tool-icon">
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="52" height="52" rx="4" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.15)" stroke-width="1"/>
-            <path d="M11 14h30l-11 12v12l-8-4V26L11 14z" stroke="#00E5C3" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
-            <path d="M17 19h6M17 23h4" stroke="#00E5C3" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
-            <circle cx="38" cy="39" r="8" fill="#00E5C3"/>
-            <path d="M38 43v-8M35 38l3-3 3 3" stroke="#070B12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
+            <path d="M11 14h34l-13 14v12l-8-4V28L11 14z" stroke="#1C3A6A" stroke-width="1.8" stroke-linejoin="round" opacity="0.7"/>
+            <circle cx="40" cy="40" r="9" fill="#1C3A6A"/>
+            <path d="M40 44v-8M37 39l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <span class="tool-tag live">Live</span>
@@ -690,15 +637,14 @@
       <!-- BrandPulse -->
       <a class="tool-card" href="https://rickhermanns-gh.github.io/brandpulse" target="_blank">
         <div class="tool-icon">
-          <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="52" height="52" rx="4" fill="rgba(0,229,195,0.06)" stroke="rgba(0,229,195,0.15)" stroke-width="1"/>
-            <rect x="10" y="15" width="24" height="19" rx="2" stroke="#00E5C3" stroke-width="1.5" opacity="0.6"/>
-            <path d="M15 22h14M15 26h10" stroke="#00E5C3" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
-            <circle cx="15" cy="19" r="1.5" fill="#00E5C3" opacity="0.5"/>
-            <path d="M36 17c2.5 2.5 2.5 6.5 0 9" stroke="#00E5C3" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M39 14c4 4 4 10.5 0 14.5" stroke="#00E5C3" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
-            <circle cx="33.5" cy="21.5" r="2.5" fill="#00E5C3"/>
-            <path d="M16 37h20M16 41h20M24 34v10M30 34v10" stroke="#00E5C3" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
+            <rect x="10" y="15" width="24" height="19" rx="3" stroke="#1C3A6A" stroke-width="1.8" opacity="0.7"/>
+            <path d="M15 22h14M15 26h10" stroke="#1C3A6A" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="15" cy="19" r="2" fill="#1C3A6A" opacity="0.5"/>
+            <path d="M36 17c2.5 2.5 2.5 6.5 0 9" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round"/>
+            <path d="M39.5 13.5c4 4 4 10.5 0 14.5" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+            <circle cx="33.5" cy="21.5" r="2.5" fill="#2EB5AF"/>
           </svg>
         </div>
         <span class="tool-tag live">Live</span>
@@ -716,23 +662,27 @@
     </div>
   </section>
 
-  <!-- MANIFESTO -->
-  <section class="manifesto">
-    <p class="manifesto-text">"AI is geen IT-project.<br><span class="accent">Het is een leiderschapsvraagstuk.</span>"</p>
-    <p class="manifesto-author">— Dealynx · powered by Saleshuys, Maurik</p>
+  <!-- QUOTE BANNER -->
+  <section class="quote-banner">
+    <div class="quote-banner-inner">
+      <p class="quote-banner-text">"AI is geen IT-project.<br><em>Het is een leiderschapsvraagstuk.</em>"</p>
+      <p class="quote-banner-author">— Dealynx · powered by SalesHuys, Maurik</p>
+    </div>
   </section>
 
   <!-- CTA / DEMO -->
   <section class="cta-section" id="contact">
-    <div class="cta-head">
-      <div class="section-eyebrow" style="justify-content:center;">Direct inplannen</div>
+    <div class="cta-header">
+      <div class="section-eyebrow">Direct inplannen</div>
       <h2 class="section-title">Plan een demo van 20 minuten</h2>
-      <p class="section-sub" style="margin:0 auto;">Kies zelf een moment — geen mail, geen wachten. Binnen 20 minuten zie je wat Dealynx voor jouw salesteam kan doen.</p>
+      <p class="section-sub" style="margin: 0 auto;">
+        Kies zelf een moment — geen mail, geen wachten. Binnen 20 minuten zie je wat Dealynx voor jouw salesteam kan doen.
+      </p>
     </div>
 
     <div class="cal-wrapper">
       <iframe
-        src="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min?embed=true&theme=dark"
+        src="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min?embed=true&theme=light"
         frameborder="0"
         title="Plan een Dealynx demo"
       ></iframe>
@@ -743,20 +693,25 @@
       <a href="mailto:rickhermanns@gmail.com">rickhermanns@gmail.com</a>
       &nbsp;·&nbsp;
       <a href="https://linkedin.com/in/rick-hermanns" target="_blank">LinkedIn</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.saleshuys.nl" target="_blank">SalesHuys.nl</a>
     </p>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">
-      <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
-        <path d="M14 2L26 14L14 26L2 14Z" stroke="#00E5C3" stroke-width="1.5" fill="rgba(0,229,195,0.08)"/>
-        <ellipse cx="14" cy="14" rx="3" ry="6" fill="#00E5C3" opacity="0.9"/>
-        <line x1="14" y1="6" x2="14" y2="22" stroke="#070B12" stroke-width="1.5"/>
+    <div class="footer-left">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <path d="M18 2L34 18L18 34L2 18Z" stroke="#2EB5AF" stroke-width="1.5" fill="rgba(46,181,175,0.1)"/>
+        <ellipse cx="18" cy="18" rx="4" ry="8" fill="#4AAFB1" opacity="0.8"/>
+        <line x1="18" y1="8" x2="18" y2="28" stroke="#152D55" stroke-width="2"/>
       </svg>
-      Deal<span>ynx</span>
+      <div>
+        <div class="footer-brand">Deal<span>ynx</span></div>
+        <div class="footer-powered">powered by SalesHuys</div>
+      </div>
     </div>
-    <div class="footer-note">© 2026 Saleshuys · Maurik, NL · Onderdeel van de Dealynx AI Suite</div>
+    <div class="footer-note">© 2026 SalesHuys · Maurik, NL · Als u kiest voor groei</div>
   </footer>
 
 </body>
