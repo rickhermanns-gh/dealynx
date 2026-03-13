@@ -1,718 +1,1176 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealynx — Spoor de deal op | Powered by SalesHuys</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      /* SalesHuys brand palette */
-      --sh-navy:       #1C3A6A;
-      --sh-navy-dark:  #152D55;
-      --sh-navy-mid:   #254E8A;
-      --sh-teal:       #2EB5AF;
-      --sh-teal-mid:   #4AAFB1;
-      --sh-teal-lt:    #5BBFC0;
-      --sh-blue:       #4A7DB5;
-      --sh-blue-lt:    #5A8EC5;
-      --sh-gradient:   linear-gradient(135deg, #4AAFB1 0%, #4A7DB5 100%);
-      --sh-gradient-h: linear-gradient(135deg, #5BBFC0 0%, #5A8EC5 100%);
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VisitFlow — Dealynx by SalesHuys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy:     #1C3A6A;
+  --navy-dk:  #152D55;
+  --teal:     #2EB5AF;
+  --teal-mid: #4AAFB1;
+  --teal-lt:  #E8F5F5;
+  --blue:     #4A7DB5;
+  --white:    #FFFFFF;
+  --cream:    #F4F7FA;
+  --text:     #1A2540;
+  --muted:    #6B7280;
+  --border:   #E2E8F0;
+  --green:    #10B981;
+  --green-lt: #D1FAE5;
+  --amber:    #F59E0B;
+  --amber-lt: #FEF3C7;
+  --red:      #EF4444;
+  --red-lt:   #FEE2E2;
+  --sidebar-w: 220px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
 
-      /* Supporting */
-      --white:     #FFFFFF;
-      --cream:     #F5F7FA;
-      --light:     #EBF0F8;
-      --text:      #333333;
-      --muted:     #666666;
-      --border:    #DDE4EF;
-      --card-shadow: 0 4px 24px rgba(28, 58, 106, 0.10);
-    }
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); background: var(--navy); color: white;
+  display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh;
+  z-index: 100; box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+}
+.sidebar-brand {
+  padding: 20px 16px 16px; border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-brand img { width: 34px; height: 34px; object-fit: contain; }
+.sidebar-brand-text { line-height: 1.2; }
+.sidebar-brand-name { font-size: 16px; font-weight: 700; color: white; }
+.sidebar-brand-sub  { font-size: 10px; color: var(--teal-mid); font-weight: 500; letter-spacing: 0.5px; }
+.sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; cursor: pointer; transition: all 0.2s;
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6);
+  border-left: 3px solid transparent; margin-bottom: 2px;
+  text-decoration: none;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); color: white; }
+.nav-item.active { background: rgba(46,181,175,0.15); color: white; border-left-color: var(--teal); }
+.nav-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto; background: var(--teal); color: white;
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px;
+}
+.sidebar-user {
+  padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--teal); color: white;
+  font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.user-info { line-height: 1.3; }
+.user-name { font-size: 12px; font-weight: 600; color: white; }
+.user-role { font-size: 10px; color: rgba(255,255,255,0.45); }
+.sidebar-footer { padding: 10px 16px 14px; border-top: 1px solid rgba(255,255,255,0.07); }
+.sh-tagline { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 0.4px; }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+/* ── MAIN ── */
+.main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+.topbar {
+  background: white; border-bottom: 1px solid var(--border);
+  padding: 0 28px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-size: 16px; font-weight: 700; color: var(--navy); }
+.topbar-right { display: flex; gap: 10px; align-items: center; }
+.btn {
+  padding: 8px 18px; border-radius: 7px; font-size: 13px;
+  font-weight: 600; cursor: pointer; border: none; font-family: inherit;
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--teal); color: white; }
+.btn-primary:hover { background: var(--teal-mid); transform: translateY(-1px); }
+.btn-ghost { background: white; color: var(--navy); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--cream); }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.content { padding: 24px 28px; flex: 1; }
 
-    body {
-      font-family: 'Open Sans', 'Helvetica Neue', Verdana, sans-serif;
-      background: var(--white);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
 
-    ::selection { background: rgba(78,175,177,0.2); color: var(--sh-navy); }
+/* ── DASHBOARD ── */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px 20px; position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--teal);
+}
+.stat-num { font-size: 30px; font-weight: 700; color: var(--navy); line-height: 1; }
+.stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.stat-sub { font-size: 11px; margin-top: 6px; }
+.stat-sub.up   { color: var(--green); }
+.stat-sub.warn { color: var(--amber); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.card {
+  background: white; border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px;
+}
+.card-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+.visit-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.visit-item:last-child { border-bottom: none; }
+.visit-avatar {
+  width: 36px; height: 36px; border-radius: 9px; background: var(--teal-lt);
+  color: var(--navy); font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.visit-info { flex: 1; }
+.visit-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+.visit-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.visit-tags { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+.tag {
+  font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px;
+}
+.tag-teal   { background: var(--teal-lt); color: var(--navy); }
+.tag-green  { background: var(--green-lt); color: #065F46; }
+.tag-amber  { background: var(--amber-lt); color: #92400E; }
+.tag-status { margin-left: auto; }
+.status-dot { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
+.status-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+.status-done   .status-dot::before { background: var(--green); }
+.status-done   .status-dot         { color: #065F46; }
+.status-sync   .status-dot::before { background: var(--blue); }
+.status-sync   .status-dot         { color: var(--blue); }
+.status-draft  .status-dot::before { background: var(--amber); }
+.status-draft  .status-dot         { color: #92400E; }
+.action-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.action-item:last-child { border-bottom: none; }
+.action-lbl  { color: var(--text); font-weight: 500; }
+.action-co   { font-size: 11px; color: var(--muted); }
+.action-due  { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 5px; }
+.due-today   { background: var(--red-lt); color: var(--red); }
+.due-soon    { background: var(--amber-lt); color: #92400E; }
+.due-later   { background: var(--teal-lt); color: var(--navy); }
+.link-sm { font-size: 12px; color: var(--teal); font-weight: 600; text-decoration: none; }
 
-    /* ── TOP BAR ── */
-    .topbar {
-      background: var(--sh-navy-dark);
-      padding: 8px 48px;
-      display: flex; align-items: center; justify-content: flex-end; gap: 24px;
-    }
-    .topbar a {
-      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
-      text-decoration: none; display: flex; align-items: center; gap: 6px;
-      transition: color 0.2s;
-    }
-    .topbar a:hover { color: var(--sh-teal-lt); }
-    .topbar-dot { width: 4px; height: 4px; background: rgba(255,255,255,0.25); border-radius: 50%; }
+/* ── WIZARD ── */
+.wizard-steps {
+  display: flex; gap: 0; margin-bottom: 24px; background: white;
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+}
+.wstep {
+  flex: 1; padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+  font-size: 13px; cursor: pointer; border-right: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.wstep:last-child { border-right: none; }
+.wstep-num {
+  width: 26px; height: 26px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  flex-shrink: 0; background: var(--border); color: var(--muted);
+}
+.wstep.active .wstep-num { background: var(--teal); color: white; }
+.wstep.done   .wstep-num { background: var(--green); color: white; }
+.wstep.active { background: var(--teal-lt); }
+.wstep-lbl { font-weight: 600; color: var(--muted); }
+.wstep.active .wstep-lbl { color: var(--navy); }
+.wstep.done   .wstep-lbl { color: var(--green); }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; left: 0; right: 0; z-index: 200;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 48px; height: 72px;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 2px 12px rgba(28, 58, 106, 0.08);
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 12px;
-    }
-    /* Lynx eye mark in SalesHuys teal */
-    .nav-logo-mark { width: 36px; height: 36px; }
-    .nav-brand {
-      display: flex; flex-direction: column;
-      font-size: 22px; font-weight: 800; line-height: 1;
-      letter-spacing: -0.5px;
-    }
-    .nav-brand .deal { color: var(--sh-navy); }
-    .nav-brand .lynx { color: var(--sh-teal); }
-    .nav-poweredby {
-      font-size: 9px; font-weight: 600; color: var(--muted);
-      letter-spacing: 0.8px; text-transform: uppercase; margin-top: 2px;
-    }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a {
-      font-size: 13px; font-weight: 600; color: var(--sh-navy);
-      text-decoration: none; transition: color 0.2s;
-      padding-bottom: 2px; border-bottom: 2px solid transparent;
-    }
-    .nav-links a:hover { color: var(--sh-teal); border-bottom-color: var(--sh-teal); }
-    .nav-cta {
-      background: var(--sh-gradient);
-      color: var(--white);
-      font-size: 13px; font-weight: 700;
-      padding: 10px 22px; border-radius: 4px;
-      text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 3px 12px rgba(74,175,177,0.3);
-    }
-    .nav-cta:hover { background: var(--sh-gradient-h); box-shadow: 0 5px 18px rgba(74,175,177,0.4); transform: translateY(-1px); }
+.form-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.form-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.form-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1/-1; }
+label { font-size: 12px; font-weight: 600; color: var(--navy); }
+input, select, textarea {
+  border: 1px solid var(--border); border-radius: 7px;
+  padding: 9px 12px; font-size: 13px; font-family: inherit;
+  color: var(--text); transition: border 0.2s; background: white;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(46,181,175,0.1); }
+textarea { resize: vertical; min-height: 80px; }
 
-    /* ── HERO ── */
-    .hero {
-      background: var(--sh-gradient);
-      min-height: 88vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 80px 48px 100px;
-      position: relative; overflow: hidden;
-    }
+.agenda-card {
+  background: var(--teal-lt); border: 1px solid rgba(46,181,175,0.3);
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.agenda-left { display: flex; align-items: center; gap: 12px; }
+.agenda-time-block { background: var(--navy); color: white; border-radius: 7px; padding: 6px 10px; text-align: center; }
+.agenda-time { font-size: 14px; font-weight: 700; }
+.agenda-date { font-size: 9px; opacity: 0.7; }
+.agenda-detail { }
+.agenda-co { font-size: 14px; font-weight: 700; color: var(--navy); }
+.agenda-meta { font-size: 12px; color: var(--muted); }
+.agenda-right { display: flex; gap: 8px; }
 
-    /* Subtle pattern overlay */
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 56px 56px;
-      pointer-events: none;
-    }
+.template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.template-card {
+  border: 2px solid var(--border); border-radius: 9px; padding: 12px 14px;
+  cursor: pointer; transition: all 0.2s;
+}
+.template-card:hover { border-color: var(--teal); }
+.template-card.selected { border-color: var(--teal); background: var(--teal-lt); }
+.template-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.template-meta { font-size: 11px; color: var(--muted); }
+.template-dest { font-size: 11px; color: var(--teal); font-weight: 600; margin-top: 4px; }
 
-    /* Soft vignette bottom */
-    .hero::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 120px;
-      background: linear-gradient(to bottom, transparent, rgba(28,58,106,0.15));
-      pointer-events: none;
-    }
+/* ── DEBRIEF ── */
+.record-btn {
+  width: 100%; padding: 20px; border-radius: 10px;
+  border: 2px dashed var(--border); background: var(--cream);
+  cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600;
+  color: var(--muted); transition: all 0.2s; text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.record-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-lt); }
+.record-btn.recording { border-color: var(--red); color: var(--red); background: var(--red-lt); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+.topics-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.topic-chip {
+  padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); background: white; cursor: pointer;
+  transition: all 0.2s; color: var(--muted);
+}
+.topic-chip:hover { border-color: var(--teal); color: var(--teal); }
+.topic-chip.done { background: var(--teal); border-color: var(--teal); color: white; }
+.transcript-box {
+  background: var(--cream); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px; font-size: 13px; line-height: 1.65; color: var(--text);
+  font-style: italic; margin-top: 8px; max-height: 160px; overflow-y: auto;
+}
+.progress-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.pstep { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+.pstep.done   { color: var(--green); }
+.pstep.active { color: var(--navy); font-weight: 600; }
+.pstep-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; background: var(--border); }
+.pstep.done   .pstep-icon { background: var(--green); color: white; }
+.pstep.active .pstep-icon { background: var(--teal); color: white; }
 
-    .hero-inner {
-      position: relative; z-index: 2;
-      text-align: center; max-width: 780px;
-    }
+/* ── REVIEW ── */
+.field-row {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--border); gap: 12px;
+}
+.field-row:last-child { border-bottom: none; }
+.field-lbl { font-size: 12px; font-weight: 600; color: var(--muted); min-width: 160px; }
+.field-val { font-size: 13px; color: var(--text); flex: 1; }
+.field-val.editable { color: var(--teal); cursor: pointer; }
+.ai-badge {
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px;
+  background: var(--teal-lt); color: var(--teal); margin-left: 6px;
+}
 
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      color: var(--white);
-      font-size: 11px; font-weight: 700;
-      padding: 6px 16px; border-radius: 20px; margin-bottom: 28px;
-      letter-spacing: 1px; text-transform: uppercase;
-      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
-    }
-    .hero-eyebrow-dot {
-      width: 6px; height: 6px; background: var(--white);
-      border-radius: 50%; animation: pulse 2s infinite;
-      box-shadow: 0 0 0 0 rgba(255,255,255,0.4);
-    }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.4); }
-      70% { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
-      100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-    }
+/* ── ACTIES ── */
+.action-section { margin-bottom: 20px; }
+.action-section-title { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.recipient-card {
+  border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px;
+  margin-bottom: 8px; display: flex; align-items: flex-start; gap: 12px;
+}
+.recip-icon { font-size: 20px; }
+.recip-info { flex: 1; }
+.recip-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.recip-sub  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.recip-actions { display: flex; gap: 6px; margin-top: 8px; }
+.format-btn {
+  padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 600;
+  border: 1px solid var(--border); background: white; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.format-btn:hover { border-color: var(--teal); color: var(--teal); }
+.format-btn.sel { background: var(--teal); border-color: var(--teal); color: white; }
+.next-action-item {
+  border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px;
+  margin-bottom: 8px; display: flex; align-items: center; gap: 12px; cursor: pointer;
+  transition: all 0.2s;
+}
+.next-action-item:hover { border-color: var(--teal); background: var(--teal-lt); }
+.next-action-item.selected { border-color: var(--teal); background: var(--teal-lt); }
+.na-icon { font-size: 22px; }
+.na-info { flex: 1; }
+.na-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.na-sub  { font-size: 12px; color: var(--muted); }
+.na-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; }
+.next-action-item.selected .na-check { background: var(--teal); border-color: var(--teal); color: white; }
 
-    .hero h1 {
-      font-size: clamp(44px, 6.5vw, 76px);
-      font-weight: 800; color: var(--white);
-      line-height: 1.05; margin-bottom: 10px;
-      text-shadow: 0 2px 20px rgba(28,58,106,0.2);
-      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
-    }
-    .hero-h1-line2 {
-      font-size: clamp(44px, 6.5vw, 76px);
-      font-weight: 300; color: rgba(255,255,255,0.85);
-      font-style: italic; line-height: 1.05; margin-bottom: 32px;
-      text-shadow: 0 2px 20px rgba(28,58,106,0.2);
-      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
-    }
+/* ── RAPPORTEN ── */
+.report-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.report-item:last-child { border-bottom: none; }
+.report-avatar { width: 38px; height: 38px; border-radius: 9px; background: var(--teal-lt); color: var(--navy); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.report-info { flex: 1; }
+.report-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+.report-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.report-actions { display: flex; gap: 6px; }
+.filter-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.filter-btn {
+  padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); background: white; cursor: pointer;
+  transition: all 0.2s; font-family: inherit; color: var(--muted);
+}
+.filter-btn.active { background: var(--teal); border-color: var(--teal); color: white; }
+.filter-btn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
 
-    .hero-sub {
-      font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.88);
-      line-height: 1.75; max-width: 540px; margin: 0 auto 44px;
-      opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
-    }
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(28,58,106,0.5);
+  z-index: 200; display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: 14px; padding: 24px; width: 460px; max-height: 80vh;
+  overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-title { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+.modal-apt {
+  padding: 12px 14px; border-radius: 9px; border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+}
+.modal-apt:hover { border-color: var(--teal); background: var(--teal-lt); }
+.modal-apt.recent { background: var(--teal-lt); border-color: rgba(46,181,175,0.4); }
+.apt-time { font-size: 12px; color: var(--teal); font-weight: 700; }
+.apt-co   { font-size: 14px; font-weight: 700; color: var(--navy); }
+.apt-meta { font-size: 12px; color: var(--muted); }
+.apt-badge { display: inline-block; font-size: 9px; font-weight: 700; background: var(--teal); color: white; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+.section-day { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 10px 0 6px; }
 
-    .hero-actions {
-      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.7s 0.6s forwards;
-    }
-    .btn-white {
-      background: var(--white); color: var(--sh-navy);
-      font-size: 14px; font-weight: 700;
-      padding: 14px 32px; border-radius: 4px;
-      text-decoration: none; transition: all 0.2s;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-    .btn-outline-white {
-      background: transparent; color: var(--white);
-      font-size: 14px; font-weight: 600;
-      padding: 14px 32px; border-radius: 4px;
-      text-decoration: none;
-      border: 2px solid rgba(255,255,255,0.6);
-      transition: all 0.2s;
-    }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+/* ── CONFIRM ── */
+.success-banner {
+  background: var(--green-lt); border: 1px solid #6EE7B7; border-radius: 9px;
+  padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: #065F46; font-weight: 600; margin-bottom: 16px;
+}
 
-    /* Stats strip */
-    .hero-stats {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
-      background: var(--sh-navy);
-      display: flex; justify-content: center;
-      opacity: 0; animation: fadeUp 0.7s 0.9s forwards;
-    }
-    .hero-stat {
-      padding: 20px 56px;
-      border-right: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-    }
-    .hero-stat:last-child { border-right: none; }
-    .hero-stat-num {
-      font-size: 26px; font-weight: 800;
-      color: var(--sh-teal-lt);
-    }
-    .hero-stat-lbl {
-      font-size: 11px; color: rgba(255,255,255,0.5);
-      margin-top: 3px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
+/* ── INSTELLINGEN ── */
+.settings-section { margin-bottom: 24px; }
+.settings-title { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; }
+.toggle-lbl { color: var(--text); font-weight: 500; }
+.toggle-sub { font-size: 11px; color: var(--muted); }
+.toggle {
+  width: 40px; height: 22px; border-radius: 11px; background: var(--border);
+  position: relative; cursor: pointer; transition: background 0.2s;
+}
+.toggle.on { background: var(--teal); }
+.toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: white; transition: left 0.2s; }
+.toggle.on::after { left: 21px; }
+.integ-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.integ-item:last-child { border-bottom: none; }
+.integ-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+.integ-status { font-size: 11px; }
+.integ-status.connected { color: var(--green); }
+.integ-status.pending   { color: var(--amber); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── SECTION BASE ── */
-    section { padding: 88px 48px; }
-    .section-eyebrow {
-      font-size: 11px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--sh-teal);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-size: clamp(30px, 4vw, 44px);
-      font-weight: 800; color: var(--sh-navy); line-height: 1.15;
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 17px; font-weight: 400; color: var(--muted);
-      line-height: 1.75; max-width: 560px;
-    }
-    .section-header { text-align: center; margin-bottom: 64px; }
-    .section-header .section-sub { margin: 0 auto; }
-
-    /* ── HOW IT WORKS ── */
-    .how { background: var(--cream); }
-    .steps {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 0; max-width: 960px; margin: 0 auto;
-      position: relative;
-    }
-    .steps::before {
-      content: '';
-      position: absolute; top: 30px;
-      left: calc(16.67% + 18px); right: calc(16.67% + 18px);
-      height: 2px;
-      background: var(--sh-gradient);
-      opacity: 0.35;
-    }
-    .step { padding: 0 32px; text-align: center; }
-    .step-num {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: var(--sh-gradient);
-      color: var(--white);
-      font-size: 20px; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 22px; position: relative; z-index: 1;
-      box-shadow: 0 4px 16px rgba(74,175,177,0.35), 0 0 0 6px var(--cream);
-    }
-    .step h3 {
-      font-size: 16px; font-weight: 700; color: var(--sh-navy);
-      margin-bottom: 10px;
-    }
-    .step p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-    /* ── TOOLS GRID ── */
-    .tools { background: var(--white); }
-    .tools-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 24px; max-width: 1040px; margin: 0 auto;
-    }
-    .tool-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 36px;
-      transition: all 0.25s;
-      position: relative; overflow: hidden;
-      text-decoration: none; color: inherit;
-      display: block;
-      box-shadow: var(--card-shadow);
-    }
-    /* Top gradient accent bar */
-    .tool-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: var(--sh-gradient);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .tool-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 48px rgba(28, 58, 106, 0.14);
-      border-color: rgba(74,175,177,0.3);
-    }
-    .tool-card:hover::before { transform: scaleX(1); }
-
-    .tool-icon {
-      width: 56px; height: 56px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 20px;
-    }
-    .tool-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.8px;
-      padding: 4px 10px; border-radius: 20px; margin-bottom: 14px;
-      text-transform: uppercase;
-    }
-    .tool-tag.live {
-      background: rgba(46,181,175,0.1);
-      border: 1px solid rgba(46,181,175,0.3);
-      color: #1A9994;
-    }
-    .tool-tag.live::before {
-      content: '';
-      display: inline-block; width: 6px; height: 6px;
-      border-radius: 50%; background: var(--sh-teal);
-    }
-    .tool-tag.coming {
-      background: rgba(245,158,11,0.08);
-      border: 1px solid rgba(245,158,11,0.25);
-      color: #B45309;
-    }
-
-    .tool-card h3 {
-      font-size: 22px; font-weight: 800;
-      color: var(--sh-navy); margin-bottom: 10px;
-    }
-    .tool-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
-
-    .tool-features { list-style: none; margin-bottom: 24px; }
-    .tool-features li {
-      font-size: 13px; color: var(--text);
-      padding: 5px 0; display: flex; align-items: center; gap: 10px;
-    }
-    .tool-features li::before {
-      content: '';
-      display: inline-block; width: 18px; height: 18px; border-radius: 50%;
-      background: rgba(74,175,177,0.12);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M4 9l3.5 3.5L14 5' stroke='%232EB5AF' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      flex-shrink: 0;
-    }
-    .tool-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 14px; font-weight: 700; color: var(--sh-navy);
-      text-decoration: none; transition: all 0.2s;
-    }
-    .tool-link:hover { color: var(--sh-teal); gap: 12px; }
-
-    /* ── DIVIDER BANNER ── */
-    .quote-banner {
-      background: var(--sh-navy);
-      padding: 80px 48px;
-      text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .quote-banner::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: var(--sh-gradient);
-      opacity: 0.15;
-    }
-    .quote-banner-inner { position: relative; z-index: 1; }
-    .quote-banner-text {
-      font-size: clamp(22px, 3vw, 36px);
-      font-weight: 800; color: var(--white);
-      line-height: 1.35; max-width: 680px; margin: 0 auto 18px;
-    }
-    .quote-banner-text em {
-      font-style: italic; font-weight: 300;
-      color: var(--sh-teal-lt);
-    }
-    .quote-banner-author {
-      font-size: 13px; color: rgba(255,255,255,0.45);
-      font-weight: 600; letter-spacing: 0.5px;
-    }
-
-    /* ── CTA DEMO ── */
-    .cta-section { background: var(--cream); padding: 88px 48px; text-align: center; }
-    .cta-header { max-width: 680px; margin: 0 auto 48px; }
-    .cal-wrapper {
-      max-width: 920px; margin: 0 auto;
-      background: var(--white);
-      border-radius: 8px; overflow: hidden;
-      box-shadow: 0 8px 40px rgba(28,58,106,0.12);
-      border: 1px solid var(--border);
-      position: relative;
-    }
-    /* Top accent */
-    .cal-wrapper::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: var(--sh-gradient);
-      z-index: 1;
-    }
-    .cal-wrapper iframe { display: block; width: 100%; height: 700px; border: none; }
-    .cta-foot {
-      margin-top: 28px; font-size: 13px; color: var(--muted);
-    }
-    .cta-foot a {
-      color: var(--sh-teal); font-weight: 700; text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .cta-foot a:hover { opacity: 0.75; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--sh-navy);
-      padding: 28px 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-top: 3px solid;
-      border-image: var(--sh-gradient) 1;
-    }
-    .footer-left {
-      display: flex; align-items: center; gap: 12px;
-    }
-    .footer-brand {
-      font-size: 16px; font-weight: 800; color: var(--white); line-height: 1;
-    }
-    .footer-brand span { color: var(--sh-teal-lt); }
-    .footer-powered { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-    .footer-note { font-size: 12px; color: rgba(255,255,255,0.3); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .topbar { display: none; }
-      nav { padding: 0 20px; }
-      .nav-links { display: none; }
-      section { padding: 60px 20px; }
-      .tools-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr; gap: 40px; }
-      .steps::before { display: none; }
-      .hero-stats { display: none; }
-      footer { flex-direction: column; gap: 10px; text-align: center; }
-    }
-  </style>
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .main { margin-left: 0; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .template-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <a href="mailto:info@saleshuys.nl">✉ info@saleshuys.nl</a>
-    <div class="topbar-dot"></div>
-    <a href="tel:+31344601180">📞 +31 344 · 601180</a>
-    <div class="topbar-dot"></div>
-    <a href="https://www.saleshuys.nl" target="_blank">← SalesHuys.nl</a>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHUAAAB2CAYAAAD2kNwSAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAA7V0lEQVR4nO29ebRlV33f+fnt4ZxzhzfULJUmkISQGK0BMdrMWGBsBtskjU3SSTpO0mlnpbNWdye90km30yvdSTpux6Ht2HHjGGPsMJghGBCTQBIghEAjFpIoTaCpVMOb7nDO2Xv/+o997n2vJnBTVZTR0m+tW+/Vve+dd87+nv0bvr/hiKrytDy1xJzpE3haTr08DepTUJ4G9SkoT4P6FJSnQX0KytOgPgXlaVCfgvI0qE9BeRrUp6A8DepTUJ4G9SkoT4P6FJSnQX0KytOgPgXFnekToMv8qUDq3jKAzD6T+Y/MP9/6nTnqvpQT/4nu83TUp4ajk4/HO8aRkkANSDrq+JvnMj/G8TKbP/gPnJScWVAViICBViDkbzFAocxBbWJC7GzxE5C67xWDQYCkiih4I0j3qymBCCRR8rsJQyKlgBUDIijmGJilO7ogoBFVxYjkg83Pgfl5JI6+cZif13HvmO66TpfIGU2Sz1ZE8o3fdm9bwM7WTfIrANM4xduCNk0pjAMcbQdKIt8fsfvedS/ffTXdcfNa5t9ImojJgHGYLXgpEWvs/DSFhKrmF3H+vjEG6W6BTWBN9ztZh8hseXV+sCO0z+nA9syCOpOUIJp8pTPd26k22gDOMV5fo7+8mDd3CLgIFAVrAo9q0q/efSdfuu3rrLYNz33+83jx5VdysQxYAhZAhgpM8yGlgGghKhRHn0u3ynOVrwkVme/eTS2Rf9RCp4qPZyY2FbJ0an4GfuLoG+3UyRkFNV9cygvT0qnitOVqFRKEjTFusABAmxTvLO1ajS6V3Ly2ph+/5Sa+es9dND2HX1pk2ja4BGf1FnnOzrN5wVnP4IXnXsCeMivQmda3wIAMbNtCSglrDa4zSk1MiAi228azXbq5YopXd6Q6laOV+ZFgK4bI5q+47jxOpZxxUFvAkHCJvGPRObAzRZdSwpuSeqOhHFRMAyQP1z/0Xf21T36I1cUBUYRpaEkopvCUZYmzlunKOj1jcU2LTGt2D5e4/NLLuPonruCyomIR2NFBMseFfF8lBdu9aYAYshr23m5ewBbbP39vZhC2HlBmgJq5mTBk8/CUBBXAkzrPNO/fSCICLQlHyXQ0ZTgYEoAxcM94rP/HB97H/cOS74UpsYn0ygpvHU3T0IQWjGAKj7cOh2KahjJACfgm0RvX7IqJyy+8mBe+4HlccM65LHhPCZQgrjubis7OA7YDWiPEqHgnR14QMFfAs10rHeoCiptf5ezmeUqp35lEIJBQEoJ24CYUg2JYHW+w3N9GAJ5o0bGHf/xHv8+da4dYGfYptm/Hi2G0soZEWBosYIxhNBphraCqiAhewFuLpIQ2gdRMQFp6hcFEJU5q+tZy4e69PPeZF3HBrt1csH0PO4uKZaAHUrKpMueg6FbbOftn5r51MtfB7sjdfRqM6l8O79dAI9m+JlIHZcLMnQtPA0yAR0H/lz98L3dNDqN7drAWlWlKiEJpHFaBEDHJbIY33TWKCFEDbYyINZjSMo1jrBNMVGhbyiQMjKWMCTNuGKqwqz9k93CRncMlztu1i4vOu4Bzd2xnyNz8iyWDXbAJesYrHXmtao4McxxPMVBncQiAgTq02NKTSBBqCldCNCQDjyd0w8Iv/+b/zca2BQ6KYhb6NHVAnKUJLQr4qkTbQKojfeeo1JDakM21CLVRakkEb3DOYWOLVZ3vOJsyEC6lrGo1YVVx3Y1jSN3PgGjismddwguffQlX7LmQPcAiMADpAy509lIgNjW2KgHYGI0ZDvuEqDh7qpXvmQa1c0N1EpGe7YiGQCJS+RIUmlGLLngeBf2Xf/Zxbp2scu/aKtvPPZcn9h9gYC2FNRjvaFOkjQFvHUahndb4Ll50tsAWnmAMTYo0gIhiQtoST+ZdJSSM5hOcxbVG2eLZZoAFRWOLjwk3mjJoIpds28PLnvNcXnrZ87hgOBQBesCkaVko/FzbTjbGDAf90xKonnmbqhAacEX+vp0GfOUgQdMmUs/wKOh7brqRD916M4eHFbJtG5NpwIlhGBPteExlPd576skINULR79GK0gB1DMSOcbLJYBUKdRhnaURQ2UISAFtB3Ao2zGznjHFKCAELuJTwKtmpipE4mZDGE6567vN40yt/iudUO1gg2+VhE3FqQRMU5pQz8Gfc+4W8ZCHmhfTGzJ2I2sCToO+96UY+dNvXOFhamsGAGkMMMKx6SFNjY0vZEXMpxmw3RZiSSD1PtBaxBi+eMhlcA76BJDARCHYTVO12jujR8eax8achYk2CFOZ2W1VQjRgjeCNUSXHjMf/t236BV26/gD0gyxHMJIB12Qif4pjmjIM6C13qFChNQQnU0wiVZR347Ru/oJ+/5y4OFsLUe8pqwIFDKywsbmfc1rQ0LCwMqMcTxmvrDHp9+sM+TUq0JBoSUUzmgQOYoPig+GBIKNqriFt2ygzUdPT/j1KTClgCLkVMiqixiHG0qoQUwRkqZ6FtKCcTlsdTfuPv/A9cDOwEqRqgrqFfnnJQz3CWJsemhkTfGITEdNrgqooR8JGvfUU/f8tXWS0d6+MW4wumacx266kfeQJnQT1MJjUSI0uuoG88zcqIEBpcWZBQrDVEY0ANxliKyuMlX/ok1keaNc0Imy3gKqazsUeBqwZXGDQYVAXE4YzNPLZGRtOANoFtC9txusEXb7+ZXS+8miWgaKeYqjgtNvWMgpo9yBYvQEjQKirQAHcdfETf/b7f41uPPUJMmj9fH8GOPbAxhWTyylcemhpZ3s6ubdsZx0Cv12NxxzLRGZa2LxNLQ+sdtRGiGBqNjEMgtDWDssRv0azpOGpWT7DwSRL1KNMnFoMRi7WeQixBLak1OOOQCawfWmPfvvspX3g160T1pZXqdDAPnPGdmpkZrIFpC2WFs4YnJxv6+Ruv5447boOyDwj4HhR9OLQKCazzxLoFetC0lAdW2L/vIQZFwS/9yq/wy+/6qyS62Ha0yp33f4c777uPh5/czyQlUumxzkFbd5RH3s0Ri4rpzHrnDWsXd2l2qhRDkpwkVK+UzlMFQ1sHps0Y4zyFuJxJig0hJfo7d/LI+joPNSOeXwwk2W7ry4zaP87a8MNhfvKgnoxJFoO4AhAY+Ey2hsRybyj33bdPMT6nU4zJ2RoFpyCSCFpDkaBZw7mCMoxhtMYf/rv38KqXXDVfiwg8b7DENc+/kvD8K2lAD2jitu/cyze+czdf+/a3MAsLpGqBtWgYqyM5hxpBUwOpxlvN1KAxNGqoFaI4orU03V/y4xqJLcvn7OSJgwcgORbKATEpYyKTSpiMAw8+eYBnnTPQ7eKEmDp7uqkdti7n8eGepfZOLGd8pyYMURUvZpNFB9pxAzHXJSTVDKwmTMrulUrHoDqDxpp6Y8qv/dN/zOtecpW4GBFRnDHEFCiNy6m9GMFb2SGG8591Ka981qXavvFtHAb2rR7kjvsf5juPPcnB0ZhRM6VuA0aUEGua2BCMofAlrugRrNBaqIoBa/ufZO9wifX1NQ4efpIgkd5gwNrKYYb9JVQT49iSJHH7/ffx+nMuIABONev274PQ1mqQv6iccVAFIaZIEjBi5h7KtuVFCu8IYmD2UlCrgAOXsuoyFiMwGAz4xbf/PJ7M7wIkAoUxzDMmAm0TUO8wBpZAGmp2UXLR0g5ec/kOwuVoAxyIkQPrK3z3icf43uEn2PfY9/jeyiFWputM2g1UDI1aMD3OXVxiY22dclhh45RB4VFn8IMeMWZyw4SEx/DnD+1j8pOvy2AZy9Gh0iw1CN8fyO+XZD/joM5klsgg55t50U9cwfs/8QkmYlFjOm/Fo6bboTZ0jCu0KbBj5y6KoqRuI2WXGotNgMKhKNkECl4tUbqUnyrbxWMJtKEltAnjrFhfscdapss7uHJ5B1OepyNgA9jPBvc//j3u3ncfDzy6n8dHicn6iCYFNiYtvl8QFVbWVlkYLNBOEkaVnnEUAgdHG9xTr3JWudRdeXfTbV2L7usPa9n+UoDqxOXsdUqozfnGF19xOX3nqFURYxAVVLrSFdGcGBOyWp7UTNvM/RbekqJijeCdQ4CoiqYGZ3MIYcjptCR5+yoG78C7Gete4zoyo8UhuViC7cAFDHnRWZdizrqUVdDrvvco7/n0nxF3b+O+/Y8w6JWoCMkIk9hSugLaRGU82gQmheULt3+DF1/9Gnp0lRd6/D0p82zPpuhxCueOlr8UJaLG0Ll6GbQmtewdbpNLzn8GTgzGbL6Sc+BsZmOsA2OwC4vsP3iAfQ8+iAFC23mtMos5DWIdiUgIDW3TIFHxbK0hkpykDw2kQM4N5dzrEFjqXssKOxJsD7AX5PXn7uWvvfFnWd3/BMNBH9GIiFANh+A8GCGlBG0kxkgsC269/z4OgCZz4nApn9MPuZ4/3K9tETmJF1vc9jgrt8x5SAf83DXXYE02PcaYjL4z4BxYnz+wlqI/QK3jTz70YVrIlQkKqNKGloh2KUzBOkfhC6wRpDPLGVgLxoOrwBQEDA0yT+LPUp+O7ucVypQzMq885yz6IVAptHXDdDqljYE2JFJKiBpiVIzztCIcnEzYd+gQE9hSxnYCUXPcnXxsNL0pZ3ynzhgybfPyJcCbnM140+veQGEszlistRjn892/9VX2mEwmLO7cySe/8Llc/2NBQwIs3pVYhESi1ZD/mKQMet1kFRczt65qUDwtDsUh2Hk14jFlJx1x0O8++ytvuIZe6n7LWrwtSEERNVjrSYAtK0bTlkmCux5+iBWYndEPJScC9kcCakqJGOO8zDKlxNGcs5TlfPfOyjv3Dhelsp7CeUQNKjIHU3yuQRDjkF6PSUqsty37Hjug0wTiNy8tpojBYMVSx27vKeAt0BLjFLEdwd9ASIKoZEBTi01TREdoXAWZEGzLmpkylQz0NpCXX3gZ8cnDlMZhjCO2CWcskoSUQJ1j0kasLRHX489u+DItXb1d0iPdXqWr19oiOquI/sHyIwHVGIO1FhGZv2KMxKhzVTYrC50xZ7NL+NW/83eJ4ym9Xg/rC1zV70IchykqNCniC2x/gF9Y4nff94dEA00i14AqGJG5R+ls5xuqghjUeEJZsQ4cDFAXMDU5ezOFrJLFQhsQm0OQNk5z+EWuWSqA3QgXLG2nUKEd1xTWQdCOPBbapEQxGPGIKZhYx33TRADirLx0Xh4Lm4XjW0Q3PePvB/GPBFRV7UCMhBCIMWKtxR4n67+1bMcCb7/mZ0jTBowQU8fMisUYh7EOxIN4alVqK3z6yzdQ09X1Sr49DA5NuTBzDq8oaoV14BDon6+gv//Zb+rf+N9+X9/xP/6W/toffE5v+e5Un2ghiAc7yGgHT0/7DLXAtTkscuSY96WXPh8zabFRscEicVYSaZi2iaQWmxxCwUgsN911Jy2QjGRw6biXDtRjsn9/QTntIU2M2Ru09tj8km6585jXcqc5PWYwLII85+KL9f61VZLN+VJ8icSc/BJjsQaCgRE1g6rgjsce1RedvVcKR9fLYRDNFRAKRE1YsbTk3fh//cGn+c8fv5YnNxqKhR1YX3DTfZ/jj//LtfzkCy/Rf/YP/jbnLTgZlm6znmyaLUF26iwV8IrnX8GHbrmFwcICdR2w4kihaxnRDJJGUGOJtuSO7zzA+KoX6hJIhC78Ai95o6puuQm3yFZNfTw56Z2qP+BlrEWMIWrK+cstCxvCpu83a5eY7VC2fP+Lb3kbAEWvwrmSyleAwdsCi0WspxgO8MNFdNDng5/4JE13zNkftAgGCxhaBe12x2+//wb91BduZz0MWdx7Ke1gN6tmyGhhDwd7O7nu/id47d/8hxw06H5gpe1WzTFjMIBAAVy00OOc4TbKRpBWIUnWwGKw4jBJiCHb7GgKHj10mCdG0/m1R7J9nVOD5jgqeMvanOjTH5n3O7NBW/8/L4pm8ybY/F8+6Qp4zSt+CmNy5sQ7l52mJJRFRa/XR1VokuIXFlhtG+68/ztd7013uERO1ZHbKJLkBXxyhH7+ptt58OCExvbZaKAe1WBK1A+YtobDjaXpL/O3/sl/YE1QU+VKCSAnFIi0scUCHuSKi56LTBqcCiFEFCGGhDc+e8PJEpOhTcIkRu574MF5xb6SnTWlU8M/JDqnHdSmbebfC0LTNjRtQ5oZjFnyefZDR6KLBXYu9LngmReCsXlnJqX0JSKW0ldA3hHB5GrBsQYe3RjpEVeXFNR0NcCZtXp4/36+s/8JdKFPsbyA2gSlofBg2hrrLKGJGCnY9+DDrIy7Rq2kBNkAO0YJqOQCNQ+88FmXMpQSkwRNAsYRUsSKhVYxklN7dUqIKbjn3nvnWiUBYnPCr4k/MII9oZwyUEW3vMgnWQPBF6wA9z450c/ccq9+7Po79HO3PaB3P1nrCrkOKWzVI5IraWeq15C9y8uf/0IWywFeLN56qn6PSdtQtw1lWbLYXyI0irgeh0Y1N93xrczWzLwGjZmGFJDusg8eXGHUtqj3jOsp9Xg988YhkNZXqazF+4rRJFFLwZe/djcbLeqN4pztiBJDYYquvAXO2TZgd69HChFjHF4c0gguGkzsHHcRYlDUlNy3f4VVRWcbc667tjbcHFVtkSVteR0pJ+UoKdAm8IYc4HkHbQO9ilpgBXQD+He/9ymuv/GbrK03NG3ElJ7h8gIXnrNH//U//CWeuYzYBDZOsb6fryFErA0dV2vk5Zdfpdde9zUkKlp51mNDqgxtTPR9D2kUDSUjIJWL3HbfA7zlZVerF6RvQvY8Qo0ty5z2AnYv7WbgS8ZtnRkr66ibiLeWXq9EUqSJhqpYRF3iuutv5l2vukwKEnWyFKZEYm6qCmQTe34Pzlroccfhw6irkAkMUoFMGgoR6tiSYqTnKsYh8e1J4o4DNa/ZVeKpiSTqpmXBL9KOwQy6eqhZhk5nwHbxthy7L096pxqz5RvV+RFD9/pf//0H+ej1t3D/SuKwWWbFb+NJHXLfauKmfY/yrn/wr/n291BroPAVrcLauAFrQRWhpo/huec/g0VbUuJJTaLXH2JdJh9ijHjj2bm4i6pcZH3ccNu372G1Owfs1ru7Cx0bOG/3Mufs3Mli1aNwnqKoQARjDLFtqCcTrCuYTGoObUy46559TOp8kdYUNA0gDq2z8rS5TliufO5zWKoqfAKfLE49Ti0GwSCImFyNLAVNtczX73t43nANiarIDZa+2lznWf+Nbt25cvydetKgRnKMjXc5F+oLYldndMdDK1x3/Vd44uAhTFXieiU4iys8xgsbzZQHDj3Bb7zn99m/kTSooa4Dg0GRy0YMkIQCOLcUedY5e/Heo8Znz1ccvd4AsY4GSFbwGJyxPHrgAI+vjjrz3CXgFWxH1KcE25eQZ5yzh/HqIabjCU0doG2RzjvGCkkDtqrwRcHh9Q2++a191N2yFcWRy+fJ5/qCSy4mrm7AaIJKl58Xg4pFO6NiOoZoPG258WtfpwadMourhfG4nmeUZmTMVnBzfvn4FMRJgzqPmbawIREYRfRPPvhBAtBfWMJVPeoYqdtAkyLWe2xZMDjrLD78+S9w+90PkAR6lUOBcVc7ZIxFQk0FvPrql2AUetWA1Ob2Ru9LbNEnGcP6ZII3joXBIviCz9/wlc1FMELT0Vce8F0h31t/+jVUqWHQ6+GKAsQQU1dMZi1pOsE6IaKIL/nAf/kMDdDEjtiPihQeOrgssLuCxSQsGkeMLbVGmpRoohCjEIMQoxKDUhQVTxxe5ZEWmq4Tx2DoD8vj9lDNkoMgx1W9pwTU2fE15cg6anYfKot85aZbUBxqHdM20CjgLEky/9sk5YnpBr2zz+YPPvRf5hmR6bTG+KKLMw0FlqKBV191Bc2koSz6hJDwriS0SsJiqgG4krIckKJBq4qPfvpT5CgSIgZXlmhMoCnPgkjw4hfspEx1977BOkuMLSKKdQ43qGjbhqaZgq+48bZvMwIVAymy2cCacteeAxaAN1x+FQtRQSOtKK0ISQ1RDZo6MkIF6yrUVfzZl7/GGLQld+nFGTozHnhLRDDXPnN1djpApWuat5knPaJJwTpELG1UxFmKfq/jUMlUXa+PLCzxmS9/g1nGonQeQfIxNZei9AXOXxLZubBECAnVXAiWjCUqGFvgix5GHJNpi696PLm+wWNj1QaoERSLMbbLl+aOhyWHPGvvbqZr64RmmstVU8h5UCJF4dA4pahKongON4av3HE4e9Gz1YsRZyweQ9sqJcgbX/wC6scexWrsKhBdhlwLjDokWVDLaFwTfcmnvvI1xnRJR3W0KXTcWshrsMUfSHPo3HEZiJMHtbuDrLVHKH8DvOaVr4KYcnI7BELIDUzatiQNHY2SOLwyor/zXA7XmaL1zqCkHLh3hWhITli/4adeSWpacLnZyRQ91HqSWtooNAl80Sdpwbade/nEdV9iMjsAnR1KCrTz8QC/8s53MCwspXNYA1ZyYns6nTLeWAPNWaWNOtDaBf7j+z/CeNYKflRMXRmhBC4eIHv7Q0xsCBoICWISCIIGS0p5A7ZRsdWQgw08WHdrZwxiJIdM2gXuR/GCOruk48hJg+qF3NtJ5nnDrNAKeMdb306c1DiVvDtNl+y2NmcxrAXxSH+ZxlZ8+JN3E7trMJhcIO0cpBYImARvveblFEaw3qPOEzBYV+WcpRqiOPqLy6yujYg4Pvq5LzDKUSp10yExuwE14BRe/4oLhXpMnI4I0zFGFO89IjmOGC4tEEJAjKfavpsbbrmdUZOPmYNLS1PXoEppgZg73V595eW40CIhkJISkiHFXNmYw+ZEQpgm0GqBa798C2OFcZ0RC9rSjYs5RtIc2VMMqpCdBWczt2WtUFgzZ1eed57Hx0QYj3HkNFucMSWt4qIBtTkkKBf4nff+ca4lC7n6rluf7FmniBc4awgLziHWUKuSxKDi0GTwrkRcydq0ZWG4HTUlhxJ8d5TtqsxCe4GmnWJEKQT6Bq551csZOkFigJiykxQCxEAzGWeQfcEkwGD7Hj527c0EyH6CgBMzJ18qC0zhTa98EfXBgwydxyikVnGmQIN05a8WVBBb0Lo+X/5mJkxsCZrbvbYstjkGsBOVwpwam7rljpHOWfBAAfILb34TNuQWfI0tRjQnjxViEzEx+3eNKZgax3e+l91Ib3IsFxEi0nklMAT56Z96GSm2OOdRyek3wSPiScajpkAoSaZkwzi+cMttxNm6dAthZqWjJAjw8z/zWjYOPk7fGazJ1fbOlfQKj4bIdDTOKrluWVmf8MWv3sxGyLlQAOP9PO1kgGEBexbg4t27SGsbucMdQ2pBZiYgBUSE8aQlaMmoNTy0ulkN4aToHKEj0ftBoJ0amzrP2GfP0pKpvRL4ude/hjTewKUIoclFWGSqzIrBBkHEkUSYYvjMl7+Wq95lFiF1E4xcPlUPvP5lV2OaGhMVwXaAOgSXyQDxqBREU0BvkS/c/E3azmOdRfDWus4RyS2UL7usJ7v6QiEKbaSpW6wxSEwUqqCKtZaicAyWF7n34UcZk4sx5t6oGJqm6a4PhoK89LLnYNbW8RGsOGKTMJobrvKIH0vdBpI6xq3jjvv255ibjiw1nUcmm1msrXHr6QF1JvMKrji3VQVw8bkFu7ctILGh8BZQgkZSAu9LjEq3I5VgDNd9/ZuMyDtgrqo7Lxog1HDxTsP523bQU4MXhxGPEYeRAisFRjxqC6Itsb0lHjmwypOT7qZX0DAbFZJ3QOVzBu0NL38R2kwgKUazTZc2UnlH6T2hrWmbGhHlscMrfPmb99OSxxrMF7Rb0ajZcXrpZZexHKFMmRghRByCJEVjwBrBiYHoQCq+cfd91HQO78w7MZvzE4/gh08gJw/qEYRz1wQqLWjmV7f1kZdffQUpTXFOcrWDEUKKJJSgqavOTCRjueeRR3nwENoCYk03Iysxc99tahiAvPqFl7OoLneEm1wuKtbhxOGkIFlPdBXjAFL0ueeBMS2dx5RmPeBK6E5eanjr638SbWu8tRgsTi0SEtoGrAiGhKWhDTVS9fnizV/P5IbKvCzQOkMkkEzO3Fxy1gLn9ReROmRT0937ztC1dEwpC48GwZoedz/4XdZn0WfMe3LL4Ts7G5D5LXkaQJ3xkToDldlubee79SdfehUpTKnDGJWEcQ6xOb6M2uUQNZGMsBIS37jvIRpy8YkFZF7EA8OepQRe+tznUUwjXnPNUzIWFcFqZ4utp7WONkBRLXLnvfflOQ8GxEmXBHE0XQHcUgWXXXQOS4MKEUFjRCNUhaOdjCFF+lXFoPSIBsqFId/e9xAbCfX+yHixoe1aqWFHgVx6znlQZyLfKpnT1oQVCPU0/71WQS0H1kfse1wzXd15QrO03OaCz3il49e7nBSos6TubIJXnAPbBc3ka730kvNZWBiiGkkEUgqoM7mD29DZjUTUROM8N9x6K+Pu+KTc9zk7f9PZwGeftcyuaoAn71QxmVjwODwOtZZkC4qyT9sE7t73AKuTLlvWOS35hrQE8nCuHQMnl158ERrB4kgpUfkCKwZvHRojk/EabWg4uLrGt+7bx7fvfYD5hXZX3saGSCSiDARecNEluKRYJDclh9hVVOYKy9QGnBpCC62x3HzbndlbUua7dNN1mYU4Jwb2pEOarQVw+X8+v0y2gQVw3i54xp7tDMuuXXEyJaXcY4IEjMnDq+qoBFtwxz0PsNJ019W287xiCt121cjeIXLx2bsxKqj6fC4zDxMD6hAVhtUi6xsNDz5xiP0jGHcFUEGzHrDZvaKejFgo4Cee/QzKNGJQCc4Ia5OGaDzGeUJTE+sJO5YWcbagiXDL7fcwmq1rmnE9FkvCEfHAxRfsoXIeJwZvPBoT0kakUawUpGgxtkcdBbV9/vyefUwDc+cINgvJ5wuPRU9QU3hy6lezvcuzhsBS0tCjoUcU37FAiSWQqy86m4XQYNsEeIZVSRwdxqcRpl0noGjZZ9I6HnjoAI/tzwpMnO/sdL4rAx5rcpH1M85exrsBRgbIJGIUoiuosRQ4BrEgThVXLjMtl7nhnic5YNHagsVncgMIEareAAf8/OuuZikdpIirIJGpLZkWA6YhYA0s9CpGqyvYFHGu4nfe+xFa05XOSMDgMNFQaKJHJAHPvtBJnEywXThjotDD06PAxpKYKmLZY5QsQQbc+e2HODiOOvOIHOBSA7HTX5JJl5ZjB1CfPKjzfF6c2zzdfKfTEi0D4Bfe9Hri+gomJHCeZjJmefsyhSiW2FXc5axkHYQPf+xTOSc79+MTppsDOG0jFnjVy1/EdG2NShyVcZQdw6S2IDVKaBSTCrB91urEtTfehPGzIZdK0S2A61J8Bjh3x1C2FYkwWcXYbgjIfFdkJ8dqNyArGg6NIg8fQo2nK2ON9H2ZS2bqydyhedkVL8CGwPrKYVShbRKpFWiFUAfWRxOiGLB9XLWNG2+9k0Y2B1NuVcCbmZrjyynL0iBHVl/MQ+YY0RR51nlLUnqHELGSqKdTJpNJ9npTp1oVvPdUVcUnP3NtxyZ1B0qJGLKddjZzpxfvsrJsW2RyCJMCqBKaFhGhjULEMmqVoIZkPPseeIhptyAFCdEGozmmxCgxRQYF/NybfwaHEuspVvPwADQiqfPqupeq0rYt//mDH+9MtcNKroNCDbYcYCR78D/z2hcQ1g/QKzxFOaBOuW+nKmChVApaCmdo2kiN56Nf+BojZhkmQCx5BKbM03EnCm1OTUgzYwq2vJWHGwNdL4wAb3rDa6kMOCLDYY+2rQHJCeM2QMq21ZUF+w+tcNcDq5ldEYeKIaZ811cGTMzJ7ldc8Rx04yCGRNPmYnFSTgdgLDFBGxPOFlSDZT5x3b6s1kUgtNlH67RMChEFfvFtb0Hb3O7viPOdSdLuJky5oSsp3pf86Uc+Tq3QpOyJG1FSm1VMiHl41iV7wE4O0y8ddRtZmUQmAcZrK0g9QlJAY6KOSuOH7DvY8HjDjP0lh3S2o8USRiNG43HDmlNeTTgz3fN2iq7mUYB3/uLPMF45QJxuYA0URZHjSltkB0qEpmmYTBt6i0u87wMfyhPLAIyjKIqs/oCeMzjgza++EteMAUMbBW8sxITGRGxDZoXUUIdIxPLRT3+JKWjAMJvW3IbM4RSFwwDLS8ju5UUqAj61uBQwKSGq+RUlB7yqFNZxeHWNO+5+LNvATl0ZX3RJfocDloFXXXEZ7cYKbYxQDqnFo7HFpoBJkaaNNOqY2gFrxQ4+ffMBZrWYuYxlNjg++zJyOrxfyMSzdl+h26UzQJVsFLuA+xnbYblX4GkZb6wQY8yUbkfBOStYgWlsWdi2k09fdwNjsvppZn8rxXnFogcu3gPbF3qMRxPqtuN0NeLEkFKibdtMzkdlVEee2Ig8WpNTZ91dX/pcExRCmJ//L771zeh0hNMWp3m3Zr42U4YkzeNkY8T6Hn/w/g93apLseXWlK0ayo9MH+aW3vJbxyn7ausYPFqiToewNc5yKoU25wnCcPOs64E8/fcM8AktstapssW/HysnHqVtex/wtJe8GgSJfnLzjLW+k77OKsrm3gNhEvBEIAdcVkwUjrLeJm25/cK6CgqZNIj5FtM3F3le98HnUrRLV5kakGHNfK4nUdnyzEdT1YLCDr96xRrA5Ia0q+Xghq24DVAK/+JbXMHCJMjUUqUG6yWbSqWGTul2r2Q5+5os3sjFjC1WJXTiZFFIbsCHxnLOQ3QsV7XSDpglsTALjWlmbRCatEtSRTEFyA7Ra4vGV9byms/toK2wqJ0zTnOROnfllszq4LWpXyd5xmtPdCPC2N72Wycp+CgPOyFz1OjGZXemKvA+tjxls38kHPv4p1nSW+xdiN3oHhMpDBfLql76IYS8PnAwh0LYxV8FHwZd9piESomCKioMbU26+7c8BiB0bNRmPwVqqqqJpsl3dPUT27lim1KyCvYa5XZUZqFHzLA6EaVS+ve+gJgWcnzc65/ldhqFLmQl7/rNZriyOXJ+EH4Ab4MohtujRtC1N0zBtWpzL5sCm9viFZ/Pis1MK6qbM1YIc9Yb1xJjj2B6wdxtcdsE5pOm4q4YIWONITU3pLDE0ue3RFkyT4dY/vwcrMIrZuXHe53ITzWq4BJ77TGC6jk0t9bjO3q4tSa5PIwUtBckVqM3sk/eZrGinNSm29HpVZt7IrSC+O/X/+r/6edJ4lZ5VNDSEtqZf9WibBoMS2ymhW/yA5drPX5eHhLRh/jCFmPKk8Vhv0APe/JqXEdcPYJt1TGppIkzU0SQhRaVflqTpOgsFlDT0AWMSW9tqMrCd93Jaylm2HMbMwUxszo/PJLd0BP9yCVc+/9lUVjrno/uxOYmRHYBkDAnPJDhu37eGzDr+U9pMhWgelLxLkDf/1ItpVp7g3LN3U5Y92gijSWAaFGMddd0S6ynSbPDql1zBdIL2KztvQopb2hyErNafc+H5LFaGJx99GIfirWP18GEK69AYKLxFQ8tkMiEm4fZv3cvhtYgvqlzmRE6fxRCwRUlsW87fYTlvsWAYN9jVd1TO09SBbYtLmFiz9viDXLBrgV6zxosue2ZmkTo9NQNrq409MRo/pBxLE3aAzkDd8oF0fZxDkNe+9MX0XQa1+xBBMRqxmpkh1BHFM4nw+Ru+Oq+CCGlLOo5AKS19hddefhHDsEa7eoDR6mFSSiwsLeaHIhhLKcrQKWf3hZdfKuzqITQzhsaQVObqUlP2sJ994W65+IJzWOp7+pXHW0MILcZAbBskBhw6NzF33HkXjx1YzYmglPPK1oC1HjCU3rN3CXnbq69iUD/J+NH7cO2I7b2C1ccfQkcHeNbeZcaP3kOx/hD//O+8cpMa1BNnZY6Wk96pxyRs9cgPE12ndArz5PkLL3kGi0WB3fKzhoAh71KZc7iOoI6bv34r9cyUdHVD+e5VqDfoS+Ilz+7Ja6+8hObQI5y1ULCjAl3bD6MDDHTEUEew9hi/+q63IhPyMyesZE8VMN1cBgBNmbEaeHjmObtZ7HkmG+usrh6mqopsMiQSQ40QqQpPSoknDq5w613fpiEXz+WiAUAsIXeQMAR+/rXP53VXPIsLly3V5AA7fM1iWuecnhIPPMiluzzv/fV/hA/dpKij6nt/JEnyI/7IbLxcF3fMsmbG5Pm4Hti1gFyw9+zOQ50dI2E1ZPXb5fMUh5iCB7/3OI880XZcRvamkyFTQWUFTc0y8N+/6xp++sXPoT9+gtEDt3F+OeHCaoI/eD/V6FH+9f/093jzldvk7B6izRRmgaWaI7rarbXZHACvf9UrINQ4k7WP956YWkJsSW22sxoDKeTw7GOf+ux8xxNyP1tSEF/SBKUEzu0hv/rO1/EPf+mNvOSZ21i79yaW6yc4v5ry99/x07z7n/0Sz15Gds62qfguRt3CA7BJmhyDx0kNcZ7Zzy6RK0DOreT2LsXSdLCVHeGlSdgwBf/2j2/U3/3wpxlpQRSTwwY0l4WKI0iJaKIvATb288/+/i/xN372JZKfEZOpRSNKs75GMVwg4hgb2A/6ncfgc9d9lVtu+Trblhb4+be9latesA0zgfN6SAXQTnO4lSQzT5JDamdmi5YfobIBXP2ad2jTO4u1VmjbiMQWHR+mkJAr7VUIagihwWvNw3ddK9sgE/C2olFDEHACpp2gGKIvqcnESgtak+NuBZZBBmGKtYpKb/60qzloMLez3Si3I2A5BVNEN0mH7q/NP5plVfMJZfMukpmgV73i5fzuBz65ZavmxLGondfigCOp4o3nui98iXe++SWUQp7yYmzuCK+WQAxWI0W07LTI8Gy4+p0vxbzzpRig7Zw01wPbjMF71FaZ3TTZ+VJj2Kw3ymcvAMlw2bOfxZduf5CJVKgaCpOT507zgxGSJlQFEcvGygYf+diN+jd/7mWSt1KOrcdNLkYrUgNWsBGsLfGZTpZJysXlIcHAgJURRCW53rzI3W45NzRyorGyp4j7PeqN4/Z4zJKDGdTnnSdStKO8IyQv4ezhQkbN/HEiGkFswTfvvIfVSb6jG7FdNYBiC0MTIqGZUtpEAVQhtz70Qk0/TdkugT5Kj4QvMtmQTAYbgbaNuWFvZq41Px1KMXgDf/1dv0zPg001C72S0NYIuboeDIKlrRtSaCkXFvid3/uPeZ4iBtX8wL9hAU0ToShAY64tJtCXxABYMtnfWDAQpht5ydKxWvSI5T7B+LuTTL1t+Tr/flYa1WUr6wYPhJDAlMxArSK862dfiUkNtjeg0YJJyIXZYHApYlOLF0NSB71l/tVvvZ8xWWXNHkECSuEFV5WggR6JoQ1ImFA4ungx4ggIkRQFxGbb1C1aUXq8bBnUJaDWzzu8r7jyMsaHn2TZC0zW8KogBW0swfbZWK/njx7TUHPzzTnDMrEVyTgMCa+BxUKzbXRDUtp8COiM8iy6r2XVBzMEvzwvOzjyQVOGPAZu1pZ9KkE9GtD5Ic38ZAdlkcORqIDJ9FlKDC28/ZpXsn7gcXQyxqA5ZGgzIWBJFN6gtDmM8T0+/tnr+Z0/+aIeDDl7sZFg1EZaDIE84lzJTq11m+R3alu0S9sZ200VJeGsHuGtH8+rVGCpRN78+tcQx2tImOBIjEYTrKuYTANqLK7rzy2dxVV9/uiDn1JFyGO5ElZylaVmrwlj7dGBwhbgDEhJrmc+0ZPDjl/1ACfrKP0FZTbpzHSkQdM0FEXBCLjq7f9IDzQW7z0Jk0l+BOuLTHSHiHdCmI6grdk2LLjw3D386t//FX7ikmX6c1o+X2I355vYhm4xwTkHJDQlxGwuRNsE/NbO3i1NvLMHkzWad+6Xbvq2/pVf/lssbD+LOgjjJlH4ihgaUooYEpPxGqINoV7j4vPP4utf+az0bJe77Sq4YoidNsrZO3vy2+oYOe2gzh6ed7SEEJgax6+/93P6e3/ycXxZUSfNzU7GkmxOww2qksOHDrFz2zKhriG0+clQzmBTw+tefhVvf8s1vOTy88UCbYSe3Uwiz1RqaiPW5QLyGNu8K609yi6Fo+IEIeJoUm6veP4Vr1VXLXF4NEXckCYEYspkRKgbUqwRDXibmK7sZ989d3DW9r7YmPCOzmPN6h+gDSnHs6dYTsN9cqRsBXQ6nc6/t9ZSGHjrG15LPzX40GJSnoSGEZIqicikmdDvl1gjhBBwvk9/YSfBLNLaZb5y2738N7/6P/NTP/v39F+++6N6+72H9cED6OPrecL2fJ6St0TyDCVjPaZjeY7Ra5pyWKaZX7YENLRUFl73qlcQmwm2qxomNYi2kBqadowv3HyyW1kO+Nxnv4iRnA6cd1NJlxUC3GkAFH6E6vfo3RpCfiz1hsIv/LV/qg8/uUrje0xdQSO5Yt8YwWlD3xkO7n+CHcs7WFzYwWOPH6KsFlGNWJnQ80I7nTAZrVE54ew9O3juxRdx8YXn8Qs/+0aqArYNZ/ujs0YK43HDYFBsSRd27vbWZGISsBUBuPZLt+pf/1v/HcVgifVpQpwlam7LrKctVemZHF6BUFMVnpdc+QKu/dh7xc/unRjBybzbzXYVIadaTjuoszmEW6Vtcx1Rso6pwK//zqf1D/70EzDYxqFWoBpQtzX9wiLtCB+n7Bz2OXTgIJo8w+WdHFyZ0Ov3mdYbVKXDW8GhWBKxHkNoqLxiU2CxX3LNT7+Od7z9bZy1c9M/h00/b+ZHyhHAggZFfAb13odX9OWvvIbB8k4Ork3x/YJ6mh9sZK3HGEM7mWJTojSwbVjyxU//GReet5gxbQK2dCCJNgacdchpUJanXf3OAJ2NhG3bFu9957zkxXzZy1+EdA90j0HwrocmRwwGl0dzsHJolcX+gLJw1OMRS0uDboZSDzGeulXGdaRuIUqRU2+2z1Q9h0YtH/jop3njW/8qr/vZv61/8IHr9dAUXamzep6Ny2mZpbT8/CWummdFNkYTXFHSptwVn1JWoUkDxkA9GpOaFk2Jjf0HOHzgMA899F3a2TTaLRsopUQ8YZ7l5OS0gzoT6UbZeO/n781mAz3jvB2cc/YyTgKlA20Dg6KPNjAdRbz0KHyfaRMYLAyxheXJwwcYDEsgITFSWNdNPzOECGo8akrwA2oKJsnRX97NeuP4t7/1Ht749r/LO//mP9E//uhNeud9q7rewCR2A70kT1MJnQ1ugY0GPvTRTzANgXHdUpQ9RqMRdV1TOt+N58ldd2Fc4xeW2Fgf85lrP0sXTeFKT2hnQ0KE4w2TPBVyRh+MYLoT2LmEvODZ5+kjN9xK3++grkdMppFtS8tUg4r1lf0Mipy1efLAIYqFIUvbl9iYjHApoV1Lg/E+j5w1OZOyMW0oC0/EkxSmXdCuTpiqZ2Ua+Te/8Vv0S8+5e3fr1Vf8BC9/yYu45KJnsDQ0UhU5nBnV8Nu/+yf6G//+t1FbsnPHMo8/8jjV0gKxWaeuR3jXo11fpxwsUW+s004n+MLzjW98Y/OCEznJT8KarbMxTq2c4eenJkKckKznY5/5sv6rd/8n1sMAP9zNaBRpg5JCi3WGqrTUsUatw/cHjEIghcCyc7iUCCHQNA0xRozL6t0YQ0p5vjBJMTZ3s85MgZFIzxokNWhoMRrRWNMvPJdd+myuuuoKRqMR//H/fQ+HVzdY3L6Dw6tjmpApxtBOKW0khoawvp6nWW2McAtDBoVl9bsPcOGznsldt35Vej1yN5gT2lDjvCeQ8KdhX51hUANQU7ct1i9zwy3f0hu+fjdf/fpdPHFog2mjJBWsK8AaVicjkjFIWVLHxKBXElZWKW0GULUrZrKZbYma5l53JkAiVkx20lJCY6AyXUYmBpwRemXumamnOYEemgZflkynNY8+9gTWV1TDBVbX1yEFjNa0kwnWF8S6gck4jzM4fJDBjkV+8urL+ciH3idVxTGgthopxJ94eX5IOeM7FXKWQ6QkYrpnqcLDj030xq9+g2/c/i2+dONXmLbK8u7djOqWOqZcgqnKYtUndZWA+bGaPocaYbM8dMZkxZirKmwXH2oMkBL9qodqpG0aLIrtnqkiXU8qZFYqpUTdRg4fPsyhlcOU3lFPRtTjUb6c6TTHuZONPOFkvMp73/ce/sovvFmKgpwpMFlLiHHEnDE+5at6xh9fHVJEjGUyHtHv9xGEJmY6L0neyysT9NZvPcz7//MHuelrt9IfLuDLHusbY4zxiHFgXNdukeYq2HtPXddYZ3KtUIyQ8qRwb3MlYV23GHGZQhTJdGWIXZhicd7QTmtibHPXt3N4nxMCKeWCcRHhwIEDDHoV0/EaC33PaOUAz3/ORfzRe35XFvpmVjeOaiB3hsu8//ZUyxkFNZK7xazNDlMzqen3cu0RQBsUcX0aYNo9BSxE+Nxnb9M/+sP38dCj+0m9JepkEOspy5KQlOl0iqpSFMW8D9QgWMk9MapdLZ4xIAXGOEKMzJYihICq0OuVxNB2qjlPoWnbBis5+TAajTDkm8daS9tO8FYpnXJ4//f43LUfZ+8OLzKrlZMEqvkJU0rOA5+GdT3joLbA+gYsDbteKG1o6jWKqtf9VNFVL9l5AxZAbLKa/tPPflNvuu1OvvnN21hZXacoKtQIKXb5VpsBE5jHximE7CgZS4oG70vaToWXZYlzBU1oM0miiX6vIoVpRxtCaGuMAW8dMQqFLwnNhJhqBpWlbdb52Iffz65tIrRQOkVEtyQUzKzL5MeTUfp+MgvqgSOpuiOcfXNEsfjWwDqRgcXA6jp6x51385Wbv85d37qHh7/3KIfXR+zavZdDaxsY67G+R922IBbnHNNxzUI1pG0aQoyUZYnxjslkSgiBXq/KMxSnY3q9EmugHo/xzjAY9FhbWWfQX2RjbZVty0NWDj/GMy/Yza//m/+dC89d7Jir0GVoZlfo5tcOT0FQT4XMWz+6cp1IfmjyPd95TO+9/0H++a/9n5iiwvgK6ytwJSEqSaFwJfX6iMXBEICNyRhVwZcF1mZHbGZD11fXEKP0ioKNtXXEKINen5WDK5x/3jk89sj9nL1nmfe/73fYuYRoShQmdo7W7Hbs2KotadzjPX7mZOXHHtQZ7ahsPtdFZXMXWwP7D6Mf/Mgn+dOPfpzDKxtU/T6JHNpYbBfuCBiDiCWEnGnRlKfIxBhZWlhkfX0dScqePXvYWF9FUHYsDXnku/ezZ9c23vN7/w9799g8rim09AqZ51GzdE3+utkG8/ROPa5sKvAZsLN3leyISZfxUuCB79b60Y9/ghtv/DLrow3WRxNELAkltJl/7lULOFdQtxGR/PSretpSWIe1uV9nY32V7dsWma7tZ2Hg+OM/+k/s2oWYroAM6FJ0W0F9Wv3+BSShKc8SjOR2SDG5LVGBSZ0oSkPQrkeY7IWK5GT6dx/b0FvvuJMvXn8jt91+J20bM42ouQ1RMbRtZGFhiQNPHuLcvedy8OBhmqZh71lnc/DA9zh/7yK/9Zv/inP2lBJjV7Vou/6Btj7iMS1bS1CeBvWEMrNX3TWoEkJExGYWiqyOp9OWspeZm+5RphS+a+Mg96o2Dfrtex7gTz/8ca67/gamdWBxYTvGFbRtIKU8EXw8njIcDhmvj9m1vcd/ePe/4BnnDESA0ELpITQ5fVeWnmObgp8G9QdIBjXFgKp2xWazZTJ5RoRI7mVRqKdNzhSVWQWOJy2tWHzVTWnpfjsBX7npPv3D9/0JX/7qTZx91l5UhbW1jdw/K8Kwv8AHP/hulnpIIRBjwtl8nBQVayWP1pnVRMnmOW+uuHka1GPlOO3xXZHb1gIzgG7QA4gQO+K/6A1QgUmby0wTeTY+kiv1A1ltX3/97fqbv/lumqZh586dvPOd7+SaN1wpm+WbgaQJI462afC+RGbdbjMqqUPv6MdPn44k+Y85qDC78wWOICeO93PAUf1/R5ZZzjzSrS35x/zKFsn1ulvj0Nm75thC62NAzWHO6QD1L8WD5k9G9CgbdaStOpLE2Ow9Scf+Aps3hIXN3qDvI2bu3W6lUM68/NiDCsebT3JEG/RR4Bxl447+5Vn8qJsPstBZX80Rrb5H3zDH35lHy+xtPY03wFMCVJjvw+Mu1aZaNlt+essHJ9KvCshstM3sjaPt+Lzf8Mhjn0H5sQd11iqx9evxMDree3OKbssoA/Q4tcBHiDnq++P3sxzp5R7VB8MPVu0nIz/2oALzDkqRLV858QY88peP0r9y9O/NVOvW9nw58rPjBJ1n0v388Qe1U5FHLG73VX7AIm9q3wxs+r6q02zJJG35uRk5f8Ktt9mbc8SPnUb24cwbgJMV2RIiHL3r/gLb5f/3jtp642wh5o+Vrfb7R7vMT4E4tZO/WLB6AjlyN51ITqcdPJXy1AH1aZnLj7/6fVqOkadBfQrK06A+BeVpUJ+C8v8B+pDYyy07ClsAAAAASUVORK5CYII=" alt="SalesHuys"/>
+    <div class="sidebar-brand-text">
+      <div class="sidebar-brand-name">Dealynx</div>
+      <div class="sidebar-brand-sub">powered by SalesHuys</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="nav-item active" onclick="showScreen('dashboard')">
+      <span class="nav-icon">⊞</span> Dashboard
+    </a>
+    <a class="nav-item" onclick="showScreen('nieuw')">
+      <span class="nav-icon">＋</span> Nieuw Bezoek
+    </a>
+    <a class="nav-item" onclick="showScreen('rapporten')">
+      <span class="nav-icon">📄</span> Rapporten
+      <span class="nav-badge">5</span>
+    </a>
+    <a class="nav-item" onclick="showScreen('instellingen')">
+      <span class="nav-icon">⚙</span> Instellingen
+    </a>
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">JB</div>
+    <div class="user-info">
+      <div class="user-name">Jan de Boer</div>
+      <div class="user-role">Accountmanager B2B</div>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sh-tagline">VisitFlow · Als u kiest voor groei</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ══ DASHBOARD ══ -->
+  <div id="screen-dashboard" class="screen active">
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-right">
+        <button class="btn btn-primary" onclick="showScreen('nieuw')">＋ Nieuw bezoek</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">6</div>
+          <div class="stat-lbl">Bezoeken deze week</div>
+          <div class="stat-sub up">↑ +1 t.o.v. vorige week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">Gesynchroniseerd met CRM</div>
+          <div class="stat-sub warn">2 nog in behandeling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">Openstaande opvolging</div>
+          <div class="stat-sub warn" style="color:var(--red)">1 vervalt vandaag</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            Recente bezoeken
+            <a class="link-sm">Alle weergeven →</a>
+          </div>
+          <!-- Visit items -->
+          <div class="visit-item">
+            <div class="visit-avatar">SW</div>
+            <div class="visit-info">
+              <div class="visit-name">Smurfit Westrock BV</div>
+              <div class="visit-meta">Peter Bakker · Gennep · 1u 30min · 18 mrt</div>
+              <div class="visit-tags">
+                <span class="tag tag-teal">Packaging Print Scan</span>
+                <span class="tag tag-teal">Anilox reiniging</span>
+              </div>
+            </div>
+            <div class="tag-status status-done"><span class="status-dot">voltooid</span></div>
+          </div>
+          <div class="visit-item">
+            <div class="visit-avatar">CV</div>
+            <div class="visit-info">
+              <div class="visit-name">Coveris Flexibles NL</div>
+              <div class="visit-meta">Sandra de Wit · Breda · 1u · 17 mrt</div>
+              <div class="visit-tags">
+                <span class="tag tag-teal">Proefpakket Follow-up</span>
+                <span class="tag tag-amber">Flexoclean</span>
+              </div>
+            </div>
+            <div class="tag-status status-sync"><span class="status-dot">gesync</span></div>
+          </div>
+          <div class="visit-item">
+            <div class="visit-avatar">VB</div>
+            <div class="visit-info">
+              <div class="visit-name">Van den Berg Technics</div>
+              <div class="visit-meta">Henk van den Berg · Venlo · 45min · 16 mrt</div>
+              <div class="visit-tags">
+                <span class="tag tag-teal">Industrial</span>
+                <span class="tag tag-amber">Tix-lijn</span>
+              </div>
+            </div>
+            <div class="tag-status status-done"><span class="status-dot">voltooid</span></div>
+          </div>
+          <div class="visit-item">
+            <div class="visit-avatar">RI</div>
+            <div class="visit-info">
+              <div class="visit-name">Rijnmond Transport BV</div>
+              <div class="visit-meta">Anja Smits · Rotterdam · 1u · 14 mrt</div>
+              <div class="visit-tags">
+                <span class="tag tag-teal">Industrial</span>
+                <span class="tag tag-teal">Trucks & Tanks</span>
+              </div>
+            </div>
+            <div class="tag-status status-draft"><span class="status-dot">concept</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Openstaande acties</div>
+          <div class="action-item">
+            <div>
+              <div class="action-lbl">Offerte Flexoclean pakket sturen</div>
+              <div class="action-co">Smurfit Westrock BV</div>
+            </div>
+            <span class="action-due due-today">Vandaag</span>
+          </div>
+          <div class="action-item">
+            <div>
+              <div class="action-lbl">Jetcleaning demo inplannen</div>
+              <div class="action-co">Coveris Flexibles NL</div>
+            </div>
+            <span class="action-due due-soon">20 mrt</span>
+          </div>
+          <div class="action-item">
+            <div>
+              <div class="action-lbl">Proefpakket Tix-lijn opsturen</div>
+              <div class="action-co">Van den Berg Technics</div>
+            </div>
+            <span class="action-due due-soon">22 mrt</span>
+          </div>
+          <div class="action-item">
+            <div>
+              <div class="action-lbl">Aanbieding contractverlenging</div>
+              <div class="action-co">Rijnmond Transport BV</div>
+            </div>
+            <span class="action-due due-later">28 mrt</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">
-      <!-- Lynx eye mark in SalesHuys teal/navy -->
-      <svg class="nav-logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Diamond shape, top navy, bottom teal - mirrors SalesHuys S-mark dual tone -->
-        <path d="M18 2 L34 18 L18 34 L2 18 Z" stroke="#1C3A6A" stroke-width="2" fill="rgba(28,58,106,0.06)"/>
-        <path d="M18 2 L34 18 L18 18 Z" fill="rgba(28,58,106,0.15)"/>
-        <path d="M18 18 L34 18 L18 34 Z" fill="rgba(46,181,175,0.2)"/>
-        <!-- Lynx slit pupil -->
-        <ellipse cx="18" cy="18" rx="4" ry="8" fill="#2EB5AF" opacity="0.9"/>
-        <line x1="18" y1="8" x2="18" y2="28" stroke="#152D55" stroke-width="2"/>
-        <!-- Highlight -->
-        <circle cx="20" cy="14" r="1.5" fill="white" opacity="0.6"/>
-      </svg>
-      <div>
-        <div class="nav-brand">
-          <span><span class="deal">Deal</span><span class="lynx">ynx</span></span>
+  <!-- ══ NIEUW BEZOEK ══ -->
+  <div id="screen-nieuw" class="screen">
+    <div class="topbar">
+      <div class="topbar-title">Nieuw Bezoek</div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost" onclick="showScreen('dashboard')">Annuleren</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="wizard-steps">
+        <div class="wstep active" id="wstep-1" onclick="goStep(1)">
+          <div class="wstep-num">1</div>
+          <div class="wstep-lbl">Setup</div>
         </div>
-        <div class="nav-poweredby">powered by SalesHuys · Maurik</div>
-      </div>
-    </div>
-    <div class="nav-links">
-      <a href="#tools">Tools</a>
-      <a href="#hoe-het-werkt">Werkwijze</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <a href="#contact" class="nav-cta">Plan een demo →</a>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">
-        <div class="hero-eyebrow-dot"></div>
-        Dealynx AI Suite — vier tools, één missie
-      </div>
-      <h1>Spoor de deal op.</h1>
-      <div class="hero-h1-line2">Voordat anderen het zien.</div>
-      <p class="hero-sub">
-        Vier AI-tools voor B2B accountmanagers met scherpe ogen — van lead tot deal tot LinkedIn post. Minder ruis. Meer omzet.
-      </p>
-      <div class="hero-actions">
-        <a href="#tools" class="btn-white">Ontdek de suite</a>
-        <a href="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min" target="_blank" class="btn-outline-white">Plan een demo</a>
-      </div>
-    </div>
-
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">4</div>
-        <div class="hero-stat-lbl">AI-tools</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">&lt; 5 min</div>
-        <div class="hero-stat-lbl">Per debrief</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">Top-5</div>
-        <div class="hero-stat-lbl">Leads elke dag</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">1 klik</div>
-        <div class="hero-stat-lbl">LinkedIn post</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOE HET WERKT -->
-  <section class="how" id="hoe-het-werkt">
-    <div class="section-header">
-      <div class="section-eyebrow">Werkwijze</div>
-      <h2 class="section-title">Van lead tot post in minuten</h2>
-      <p class="section-sub">Dealynx neemt het repetitieve werk over — zodat jij je tijd steekt in het enige wat telt: gesprekken.</p>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Voer je data in</h3>
-        <p>Leads, klantbezoeken of pipeline-deals — jij levert de context, de AI doet de analyse.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>AI genereert inzichten</h3>
-        <p>Prioriteiten, risico's, pitches en posts — gegenereerd in seconden op basis van jouw informatie.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Jij neemt actie</h3>
-        <p>Bellen, debriefen, CRM bijwerken of posten op LinkedIn — alles klaar om direct te gebruiken.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TOOLS -->
-  <section class="tools" id="tools">
-    <div class="section-header">
-      <div class="section-eyebrow">De Suite</div>
-      <h2 class="section-title">Vier tools. Eén accountmanager.</h2>
-      <p class="section-sub">Elke tool lost één concreet pijnpunt op — samen vormen ze een complete AI-werkdag.</p>
-    </div>
-
-    <div class="tools-grid">
-
-      <!-- LeadFlow -->
-      <a class="tool-card" href="https://rickhermanns-gh.github.io/leadflow" target="_blank">
-        <div class="tool-icon">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
-            <circle cx="24" cy="20" r="6" stroke="#1C3A6A" stroke-width="1.8"/>
-            <path d="M12 40c0-6.627 5.373-12 12-12h1" stroke="#1C3A6A" stroke-width="1.8" stroke-linecap="round" opacity="0.6"/>
-            <path d="M34 12l-5 9h4.5L29 32l10-12h-5.5l5.5-8z" fill="#2EB5AF"/>
-          </svg>
+        <div class="wstep" id="wstep-2" onclick="goStep(2)">
+          <div class="wstep-num">2</div>
+          <div class="wstep-lbl">Debrief</div>
         </div>
-        <span class="tool-tag live">Live</span>
-        <h3>LeadFlow</h3>
-        <p>Jouw dagelijkse top-5 leads — geprioriteerd door AI op basis van koopsignalen, sector en context. Met kant-en-klare openingspitch per lead.</p>
-        <ul class="tool-features">
-          <li>AI-prioritering op urgentie en kans</li>
-          <li>Persoonlijke openingspitch per lead</li>
-          <li>LinkedIn-knop direct naar profiel</li>
-          <li>Push naar CRM met één klik</li>
-        </ul>
-        <span class="tool-link">Probeer LeadFlow →</span>
-      </a>
-
-      <!-- VisitFlow -->
-      <a class="tool-card" href="https://rickhermanns-gh.github.io/visitflow" target="_blank">
-        <div class="tool-icon">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
-            <rect x="13" y="11" width="22" height="28" rx="3" stroke="#1C3A6A" stroke-width="1.8" opacity="0.7"/>
-            <path d="M13 17h22" stroke="#1C3A6A" stroke-width="1" opacity="0.3"/>
-            <path d="M18 23l2.5 2.5L25 21" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18 30l2.5 2.5L25 28" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="36" cy="37" r="9" fill="#1C3A6A"/>
-            <rect x="33.5" y="32" width="5" height="7" rx="2.5" fill="white"/>
-            <path d="M31.5 38c0 2.5 2 4.5 4.5 4.5s4.5-2 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M36 43v2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+        <div class="wstep" id="wstep-3" onclick="goStep(3)">
+          <div class="wstep-num">3</div>
+          <div class="wstep-lbl">Review</div>
         </div>
-        <span class="tool-tag live">Live</span>
-        <h3>VisitFlow</h3>
-        <p>Van klantbezoek naar professioneel debrief-rapport in minder dan 5 minuten. Spraak of tekst — AI structureert en schrijft het verslag.</p>
-        <ul class="tool-features">
-          <li>Spraakopname direct in de app</li>
-          <li>AI-samenvatting en actiepunten</li>
-          <li>Automatisch doorsturen via Make.com</li>
-          <li>CRM-klaar format</li>
-        </ul>
-        <span class="tool-link">Probeer VisitFlow →</span>
-      </a>
-
-      <!-- PipelineAI -->
-      <a class="tool-card" href="https://rickhermanns-gh.github.io/pipelineai" target="_blank">
-        <div class="tool-icon">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
-            <path d="M11 14h34l-13 14v12l-8-4V28L11 14z" stroke="#1C3A6A" stroke-width="1.8" stroke-linejoin="round" opacity="0.7"/>
-            <circle cx="40" cy="40" r="9" fill="#1C3A6A"/>
-            <path d="M40 44v-8M37 39l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="wstep" id="wstep-4" onclick="goStep(4)">
+          <div class="wstep-num">4</div>
+          <div class="wstep-lbl">Acties</div>
         </div>
-        <span class="tool-tag live">Live</span>
-        <h3>PipelineAI</h3>
-        <p>Je pipeline geanalyseerd als een sales coach. Risicoscore per deal, gecorrigeerde kansberekening en één concrete actie voor morgen.</p>
-        <ul class="tool-features">
-          <li>Risicoscore 1–10 per deal</li>
-          <li>Diagnose van wat er écht speelt</li>
-          <li>Meest waarschijnlijke bezwaar + respons</li>
-          <li>Sales coach samenvatting van de week</li>
-        </ul>
-        <span class="tool-link">Probeer PipelineAI →</span>
-      </a>
+      </div>
 
-      <!-- BrandPulse -->
-      <a class="tool-card" href="https://rickhermanns-gh.github.io/brandpulse" target="_blank">
-        <div class="tool-icon">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-            <rect width="56" height="56" rx="8" fill="rgba(74,175,177,0.08)" stroke="rgba(74,175,177,0.2)" stroke-width="1"/>
-            <rect x="10" y="15" width="24" height="19" rx="3" stroke="#1C3A6A" stroke-width="1.8" opacity="0.7"/>
-            <path d="M15 22h14M15 26h10" stroke="#1C3A6A" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
-            <circle cx="15" cy="19" r="2" fill="#1C3A6A" opacity="0.5"/>
-            <path d="M36 17c2.5 2.5 2.5 6.5 0 9" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round"/>
-            <path d="M39.5 13.5c4 4 4 10.5 0 14.5" stroke="#2EB5AF" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-            <circle cx="33.5" cy="21.5" r="2.5" fill="#2EB5AF"/>
-          </svg>
+      <!-- STEP 1: SETUP -->
+      <div id="step-1">
+        <div class="form-card">
+          <div class="form-title">📅 Meest recente afspraak uit je agenda</div>
+          <div class="agenda-card">
+            <div class="agenda-left">
+              <div class="agenda-time-block">
+                <div class="agenda-time">10:00</div>
+                <div class="agenda-date">di 18 mrt</div>
+              </div>
+              <div class="agenda-detail">
+                <div class="agenda-co">Smurfit Westrock BV — Packaging Print gesprek</div>
+                <div class="agenda-meta">Peter Bakker · Gennep · 1u 30min</div>
+              </div>
+            </div>
+            <div class="agenda-right">
+              <button class="btn btn-primary btn-sm" onclick="goStep(2)">✓ Gebruik deze</button>
+              <button class="btn btn-ghost btn-sm" onclick="openModal()">↕ Andere</button>
+            </div>
+          </div>
         </div>
-        <span class="tool-tag live">Live</span>
-        <h3>BrandPulse</h3>
-        <p>LinkedIn thought leadership op autopilot. Geef een onderwerp of URL — de AI schrijft 3 posts in jouw eigen stem. Klaar om te plaatsen.</p>
-        <ul class="tool-features">
-          <li>3 posttypes: inzicht, verhaal, stelling</li>
-          <li>Stijlkalibratie op jouw eigen posts</li>
-          <li>Tekenteller voor LinkedIn-limiet</li>
-          <li>Direct bewerken voor publicatie</li>
-        </ul>
-        <span class="tool-link">Probeer BrandPulse →</span>
-      </a>
+        <div class="form-card">
+          <div class="form-title">📋 Bezoekgegevens</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Bedrijfsnaam *</label>
+              <input type="text" value="Smurfit Westrock BV" placeholder="Bijv. Smurfit Westrock BV"/>
+            </div>
+            <div class="form-group">
+              <label>Contactpersoon *</label>
+              <input type="text" value="Peter Bakker" placeholder="Naam contactpersoon"/>
+            </div>
+            <div class="form-group">
+              <label>Functie</label>
+              <input type="text" value="Productiemanager" placeholder="Bijv. Productiemanager"/>
+            </div>
+            <div class="form-group">
+              <label>Datum</label>
+              <input type="date" value="2026-03-18"/>
+            </div>
+            <div class="form-group">
+              <label>Locatie</label>
+              <input type="text" value="Gennep" placeholder="Stad of adres"/>
+            </div>
+            <div class="form-group">
+              <label>Extra aanwezigen</label>
+              <input type="text" placeholder="Bijv. Mark de Vries (inkoop)"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-title">📝 Selecteer rapport-template</div>
+          <div class="template-grid">
+            <div class="template-card selected" onclick="selectTemplate(this)">
+              <div class="template-name">Packaging Print Scan</div>
+              <div class="template-meta">28 velden · 4 secties · PDF</div>
+              <div class="template-dest">📧 Klant + CRM</div>
+            </div>
+            <div class="template-card" onclick="selectTemplate(this)">
+              <div class="template-name">Industrial Bezoekrapport</div>
+              <div class="template-meta">22 velden · 3 secties · DOCX</div>
+              <div class="template-dest">🏢 Intern · SharePoint</div>
+            </div>
+            <div class="template-card" onclick="selectTemplate(this)">
+              <div class="template-name">Proefpakket Follow-up</div>
+              <div class="template-meta">16 velden · 2 secties · PDF</div>
+              <div class="template-dest">📧 Klant</div>
+            </div>
+            <div class="template-card" onclick="selectTemplate(this)">
+              <div class="template-name">Contractverlenging</div>
+              <div class="template-meta">12 velden · 2 secties · PDF</div>
+              <div class="template-dest">📧 Klant + Manager</div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <button class="btn btn-primary" onclick="goStep(2)">Start debrief →</button>
+        </div>
+      </div>
 
-    </div>
-  </section>
+      <!-- STEP 2: DEBRIEF -->
+      <div id="step-2" style="display:none">
+        <div class="form-card">
+          <div class="form-title">🎙️ Spreek je debrief in</div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+            Vertel vrij over je bezoek — wie er waren, wat er besproken is, welke producten aan bod kwamen en wat de vervolgstap is.
+          </p>
+          <button class="record-btn" id="recordBtn" onclick="toggleRecord()">
+            <span id="recordIcon">🎙️</span>
+            <span id="recordText">Klik om te beginnen met opnemen</span>
+          </button>
+          <div style="text-align:center;margin-top:6px;font-size:12px;color:var(--muted)" id="recordTimer">0:00</div>
+        </div>
+        <div class="form-card">
+          <div class="form-title">📋 Onderwerpen om te benoemen</div>
+          <div class="topics-list">
+            <div class="topic-chip" onclick="toggleChip(this)">Huidige reinigingsmiddelen</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Anilox rollen / frequentie</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Jetcleaning interesse</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Flexoclean proefpakket</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Inkoopvolume / contract</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Duurzaamheid / Ecolabel</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Besluitvormers</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Concurrent (merk / prijs)</div>
+            <div class="topic-chip" onclick="toggleChip(this)">Volgende stap</div>
+          </div>
+        </div>
+        <div class="form-card" id="processingCard" style="display:none">
+          <div class="form-title">🧠 AI verwerkt je debrief...</div>
+          <div class="progress-steps">
+            <div class="pstep done" id="pstep1">
+              <div class="pstep-icon">✓</div> 🎙️ Audio transcriberen...
+            </div>
+            <div class="pstep active" id="pstep2">
+              <div class="pstep-icon">→</div> 🧠 Debrief analyseren...
+            </div>
+            <div class="pstep" id="pstep3">
+              <div class="pstep-icon">○</div> 📋 Velden invullen...
+            </div>
+          </div>
+        </div>
+        <div class="form-card" id="transcriptCard" style="display:none">
+          <div class="form-title">📝 Transcript</div>
+          <div class="transcript-box">
+            "Bezocht Smurfit Westrock in Gennep. Gesproken met Peter Bakker, productiemanager, en Mark de Vries van inkoop. Ze drukken momenteel op 4 flexopersen. Gebruiken nu een concurrent reinigingsmiddel voor de anilox rollen — niet tevreden over restanten na reiniging. Hebben interesse in Flexoclean proefpakket voor 2 persen. Jetcleaning machine wordt interessant als de proef positief is. Volume circa 200 liter per maand. Beslissing ligt bij Peter en Mark samen. Volgende afspraak inplannen over 3 weken na ontvangst proefpakket."
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px">
+          <button class="btn btn-ghost" onclick="goStep(1)">← Terug</button>
+          <button class="btn btn-primary" onclick="processDebrief()">Verwerken →</button>
+        </div>
+      </div>
 
-  <!-- QUOTE BANNER -->
-  <section class="quote-banner">
-    <div class="quote-banner-inner">
-      <p class="quote-banner-text">"AI is geen IT-project.<br><em>Het is een leiderschapsvraagstuk.</em>"</p>
-      <p class="quote-banner-author">— Dealynx · powered by SalesHuys, Maurik</p>
-    </div>
-  </section>
+      <!-- STEP 3: REVIEW -->
+      <div id="step-3" style="display:none">
+        <div class="form-card">
+          <div class="form-title">✅ Packaging Print Scan — Smurfit Westrock BV <span class="ai-badge">AI ingevuld</span></div>
+          <div style="color:var(--amber);font-size:12px;font-weight:600;margin-bottom:12px">⚠ 3 velden vereisen jouw input</div>
 
-  <!-- CTA / DEMO -->
-  <section class="cta-section" id="contact">
-    <div class="cta-header">
-      <div class="section-eyebrow">Direct inplannen</div>
-      <h2 class="section-title">Plan een demo van 20 minuten</h2>
-      <p class="section-sub" style="margin: 0 auto;">
-        Kies zelf een moment — geen mail, geen wachten. Binnen 20 minuten zie je wat Dealynx voor jouw salesteam kan doen.
-      </p>
-    </div>
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Bedrijf & Contact</div>
+          <div class="field-row">
+            <div class="field-lbl">Bedrijfsnaam</div>
+            <div class="field-val">Smurfit Westrock BV</div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Contactpersoon</div>
+            <div class="field-val">Peter Bakker — Productiemanager</div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Extra aanwezigen</div>
+            <div class="field-val">Mark de Vries — Inkoop</div>
+          </div>
 
-    <div class="cal-wrapper">
-      <iframe
-        src="https://cal.com/rick-hermanns-4bcp9d/salesflow-ai-demo-20-min?embed=true&theme=light"
-        frameborder="0"
-        title="Plan een Dealynx demo"
-      ></iframe>
-    </div>
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:1px">Productie & Reinigingsbehoefte</div>
+          <div class="field-row">
+            <div class="field-lbl">Aantal flexopersen</div>
+            <div class="field-val">4 <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Huidige leverancier</div>
+            <div class="field-val">Concurrent — naam niet gespecificeerd <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Klacht / pijnpunt</div>
+            <div class="field-val">Restanten na reiniging anilox rollen <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Maandvolume reinigingsmiddel</div>
+            <div class="field-val">~200 liter/maand <span class="ai-badge">AI</span></div>
+          </div>
 
-    <p class="cta-foot">
-      Liever eerst mailen?
-      <a href="mailto:rickhermanns@gmail.com">rickhermanns@gmail.com</a>
-      &nbsp;·&nbsp;
-      <a href="https://linkedin.com/in/rick-hermanns" target="_blank">LinkedIn</a>
-      &nbsp;·&nbsp;
-      <a href="https://www.saleshuys.nl" target="_blank">SalesHuys.nl</a>
-    </p>
-  </section>
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:1px">Interesse & Kansen</div>
+          <div class="field-row">
+            <div class="field-lbl">Interesse Flexoclean proefpakket</div>
+            <div class="field-val" style="color:var(--green)">✓ Ja — voor 2 persen <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Interesse Jetcleaning machine</div>
+            <div class="field-val" style="color:var(--amber)">Conditioneel — na positieve proef <span class="ai-badge">AI</span></div>
+          </div>
+          <div class="field-row">
+            <div class="field-lbl">Besluitvormers</div>
+            <div class="field-val">Peter Bakker + Mark de Vries (gezamenlijk) <span class="ai-badge">AI</span></div>
+          </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-left">
-      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-        <path d="M18 2L34 18L18 34L2 18Z" stroke="#2EB5AF" stroke-width="1.5" fill="rgba(46,181,175,0.1)"/>
-        <ellipse cx="18" cy="18" rx="4" ry="8" fill="#4AAFB1" opacity="0.8"/>
-        <line x1="18" y1="8" x2="18" y2="28" stroke="#152D55" stroke-width="2"/>
-      </svg>
-      <div>
-        <div class="footer-brand">Deal<span>ynx</span></div>
-        <div class="footer-powered">powered by SalesHuys</div>
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:1px">Opmerkingen</div>
+          <div class="field-row">
+            <div class="field-lbl">AI-samenvatting</div>
+            <div class="field-val">Klant ontevreden over huidig reinigingsmiddel (resten op anilox). Hoge kans op Flexoclean conversie. Jetcleaning potentieel op langere termijn. Prioriteit: proefpakket snel leveren en opvolgen.</div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:1px">Aanwezigen — LinkedIn</div>
+          <div style="display:flex;gap:8px;margin-top:4px">
+            <a href="https://www.linkedin.com/search/results/people/?keywords=Peter+Bakker+Smurfit" target="_blank" class="btn btn-ghost btn-sm">🔗 Peter Bakker</a>
+            <a href="https://www.linkedin.com/search/results/people/?keywords=Mark+de+Vries+inkoop" target="_blank" class="btn btn-ghost btn-sm">🔗 Mark de Vries</a>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <button class="btn btn-ghost" onclick="goStep(2)">← Terug</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Goedkeuren & Exporteren →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: ACTIES -->
+      <div id="step-4" style="display:none">
+        <div class="success-banner">
+          <span style="font-size:18px">✅</span> Rapport goedgekeurd — PDF gegenereerd
+          <span style="font-size:12px;margin-left:auto;font-weight:400">Packaging Print Scan · Smurfit Westrock BV · 18 mrt 2026</span>
+        </div>
+        <div class="form-card">
+          <div class="form-title">📤 Verzenden & delen</div>
+          <div class="action-section">
+            <div class="action-section-title">Ontvangers</div>
+            <div class="recipient-card">
+              <div class="recip-icon">📧</div>
+              <div class="recip-info">
+                <div class="recip-name">Peter Bakker — Smurfit Westrock BV</div>
+                <div class="recip-sub">peter.bakker@smurfitkappa.com · Beste Peter, bijgaand het verslag van ons gesprek...</div>
+                <div class="recip-actions">
+                  <button class="format-btn sel">PDF bijlage</button>
+                  <button class="format-btn">Online link</button>
+                  <button class="format-btn">Platte tekst</button>
+                </div>
+              </div>
+            </div>
+            <div class="recipient-card">
+              <div class="recip-icon">🏢</div>
+              <div class="recip-info">
+                <div class="recip-name">Intern / Manager</div>
+                <div class="recip-sub">Via email of Teams</div>
+                <div class="recip-actions">
+                  <button class="format-btn sel">Email</button>
+                  <button class="format-btn">Teams</button>
+                </div>
+              </div>
+            </div>
+            <div class="recipient-card">
+              <div class="recip-icon">🔄</div>
+              <div class="recip-info">
+                <div class="recip-name">CRM synchroniseren</div>
+                <div class="recip-sub">Salesforce / HubSpot / eigen CRM</div>
+                <div class="recip-actions">
+                  <button class="format-btn sel">Bezoeknotitie</button>
+                  <button class="format-btn">PDF bijlage</button>
+                  <button class="format-btn">Taak aanmaken</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="action-section" style="margin-top:20px">
+            <div class="action-section-title">Volgende acties</div>
+            <div class="next-action-item selected" onclick="toggleNA(this)">
+              <div class="na-icon">📦</div>
+              <div class="na-info">
+                <div class="na-name">Proefpakket versturen</div>
+                <div class="na-sub">Flexoclean sample voor 2 flexopersen — Smurfit Westrock Gennep</div>
+              </div>
+              <div class="na-check">✓</div>
+            </div>
+            <div class="next-action-item selected" onclick="toggleNA(this)">
+              <div class="na-icon">📅</div>
+              <div class="na-info">
+                <div class="na-name">Opvolgafspraak inplannen</div>
+                <div class="na-sub">Over 3 weken — evaluatie proefpakket + Jetcleaning demo</div>
+              </div>
+              <div class="na-check">✓</div>
+            </div>
+            <div class="next-action-item" onclick="toggleNA(this)">
+              <div class="na-icon">💶</div>
+              <div class="na-info">
+                <div class="na-name">Offerte voorbereiden</div>
+                <div class="na-sub">200 liter/maand Flexoclean + optie Jetcleaning machine</div>
+              </div>
+              <div class="na-check"></div>
+            </div>
+            <div class="next-action-item" onclick="toggleNA(this)">
+              <div class="na-icon">🔗</div>
+              <div class="na-info">
+                <div class="na-name">LinkedIn verbinding aanvragen</div>
+                <div class="na-sub">Peter Bakker & Mark de Vries</div>
+              </div>
+              <div class="na-check"></div>
+            </div>
+          </div>
+          <div style="text-align:right;margin-top:16px">
+            <button class="btn btn-primary" onclick="finishVisit()">✓ Bezoek afronden</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="footer-note">© 2026 SalesHuys · Maurik, NL · Als u kiest voor groei</div>
-  </footer>
+  </div>
 
+  <!-- ══ RAPPORTEN ══ -->
+  <div id="screen-rapporten" class="screen">
+    <div class="topbar">
+      <div class="topbar-title">Rapporten</div>
+      <div class="topbar-right">
+        <button class="btn btn-primary btn-sm" onclick="showScreen('nieuw')">＋ Nieuw bezoek</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter(this)">Alle statussen</button>
+        <button class="filter-btn" onclick="setFilter(this)">Concept</button>
+        <button class="filter-btn" onclick="setFilter(this)">Voltooid</button>
+        <button class="filter-btn" onclick="setFilter(this)">Gesynchroniseerd</button>
+      </div>
+      <div class="card">
+        <div class="report-item">
+          <div class="report-avatar">SW</div>
+          <div class="report-info">
+            <div class="report-name">Smurfit Westrock BV</div>
+            <div class="report-meta">Peter Bakker · 18 mrt 2026 · Packaging Print Scan</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="tag tag-green" style="background:var(--green-lt);color:#065F46">✓ voltooid</span>
+            <button class="btn btn-ghost btn-sm">↓ PDF</button>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-avatar">CV</div>
+          <div class="report-info">
+            <div class="report-name">Coveris Flexibles NL</div>
+            <div class="report-meta">Sandra de Wit · 17 mrt 2026 · Proefpakket Follow-up</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="tag" style="background:#DBEAFE;color:#1E40AF">↑ gesync</span>
+            <button class="btn btn-ghost btn-sm">↓ PDF</button>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-avatar">VB</div>
+          <div class="report-info">
+            <div class="report-name">Van den Berg Technics</div>
+            <div class="report-meta">Henk van den Berg · 16 mrt 2026 · Industrial Bezoekrapport</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="tag tag-green" style="background:var(--green-lt);color:#065F46">✓ voltooid</span>
+            <button class="btn btn-ghost btn-sm">↓ PDF</button>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-avatar">RI</div>
+          <div class="report-info">
+            <div class="report-name">Rijnmond Transport BV</div>
+            <div class="report-meta">Anja Smits · 14 mrt 2026 · Industrial Bezoekrapport</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="tag tag-amber">● concept</span>
+            <button class="btn btn-primary btn-sm" onclick="showScreen('nieuw')">Hervatten</button>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-avatar">HD</div>
+          <div class="report-info">
+            <div class="report-name">Hollandia Drukkerij BV</div>
+            <div class="report-meta">Marc Jansen · 11 mrt 2026 · Packaging Print Scan + Contractverlenging</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="tag tag-green" style="background:var(--green-lt);color:#065F46">✓ voltooid</span>
+            <button class="btn btn-ghost btn-sm">↓ PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ INSTELLINGEN ══ -->
+  <div id="screen-instellingen" class="screen">
+    <div class="topbar">
+      <div class="topbar-title">Templates & Instellingen</div>
+    </div>
+    <div class="content">
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-title">Rapport Templates <button class="btn btn-ghost btn-sm">+ Nieuw</button></div>
+        <div class="report-item">
+          <div class="report-info">
+            <div class="report-name">Packaging Print Scan</div>
+            <div class="report-meta">28 velden · 4 secties · PDF → Klant + CRM</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <span class="tag tag-teal">Standaard</span>
+            <button class="btn btn-ghost btn-sm">Bewerken</button>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-info">
+            <div class="report-name">Industrial Bezoekrapport</div>
+            <div class="report-meta">22 velden · 3 secties · DOCX → SharePoint</div>
+          </div>
+          <button class="btn btn-ghost btn-sm">Bewerken</button>
+        </div>
+        <div class="report-item">
+          <div class="report-info">
+            <div class="report-name">Proefpakket Follow-up</div>
+            <div class="report-meta">16 velden · 2 secties · PDF → Klant</div>
+          </div>
+          <button class="btn btn-ghost btn-sm">Bewerken</button>
+        </div>
+        <div class="report-item">
+          <div class="report-info">
+            <div class="report-name">Contractverlenging</div>
+            <div class="report-meta">12 velden · 2 secties · PDF → Klant + Manager</div>
+          </div>
+          <button class="btn btn-ghost btn-sm">Bewerken</button>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="settings-title">Standaard instellingen</div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-lbl">Standaard templates auto-selecteren</div>
+            <div class="toggle-sub">Templates met 'Standaard' worden automatisch aangevinkt</div>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-lbl">Debrief transcript opslaan</div>
+            <div class="toggle-sub">Bewaar het ruwe transcript naast het gestructureerde rapport</div>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-lbl">LinkedIn verbindingslink tonen</div>
+            <div class="toggle-sub">Toon LinkedIn knoppen naast aanwezigen in stap 3</div>
+          </div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="settings-title">Integraties</div>
+        <div class="integ-item">
+          <div>
+            <div class="integ-name">Anthropic AI</div>
+            <div style="font-size:11px;color:var(--muted)">Transcriptie en veld-mapping</div>
+          </div>
+          <span class="integ-status connected">● Verbonden</span>
+        </div>
+        <div class="integ-item">
+          <div>
+            <div class="integ-name">Google Drive</div>
+            <div style="font-size:11px;color:var(--muted)">Rapporten automatisch opslaan</div>
+          </div>
+          <span class="integ-status pending">● Configureren</span>
+        </div>
+        <div class="integ-item">
+          <div>
+            <div class="integ-name">CRM Integratie</div>
+            <div style="font-size:11px;color:var(--muted)">Sync bezoekdata naar jouw CRM</div>
+          </div>
+          <span class="integ-status pending">● Configureren</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- AGENDA MODAL -->
+<div class="modal-overlay" id="agendaModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">📅 Kies een afspraak</div>
+    <div class="section-day">Vandaag — dinsdag 18 maart 2026</div>
+    <div class="modal-apt recent" onclick="closeModal()">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div class="apt-time">10:00</div>
+        <span class="apt-badge">Meest recent</span>
+      </div>
+      <div class="apt-co">Smurfit Westrock BV — Packaging Print gesprek</div>
+      <div class="apt-meta">Peter Bakker · Gennep · 1u 30min</div>
+    </div>
+    <div class="modal-apt" onclick="closeModal()">
+      <div class="apt-time">14:00</div>
+      <div class="apt-co">Intern overleg Packaging Print regio Zuid</div>
+      <div class="apt-meta">Teams call · 30min</div>
+    </div>
+    <div class="section-day">Gisteren — maandag 17 maart</div>
+    <div class="modal-apt" onclick="closeModal()">
+      <div class="apt-time">11:30</div>
+      <div class="apt-co">Coveris Flexibles NL — Proefpakket evaluatie</div>
+      <div class="apt-meta">Sandra de Wit · Breda · 1u</div>
+    </div>
+    <div class="modal-apt" onclick="closeModal()">
+      <div class="apt-time">09:00</div>
+      <div class="apt-co">Van den Berg Technics — Tix productlijn intro</div>
+      <div class="apt-meta">Henk van den Berg · Venlo · 45min</div>
+    </div>
+    <div class="section-day">Eerder deze week</div>
+    <div class="modal-apt" onclick="closeModal()">
+      <div class="apt-time">13:00</div>
+      <div class="apt-co">Rijnmond Transport BV — Trucks & Tanks reiniging</div>
+      <div class="apt-meta">Anja Smits · Rotterdam · 1u</div>
+    </div>
+    <div class="modal-apt" onclick="closeModal()">
+      <div class="apt-time">10:30</div>
+      <div class="apt-co">Hollandia Drukkerij BV — Contractverlenging Flexoclean</div>
+      <div class="apt-meta">Marc Jansen · Haarlem · 1u 15min</div>
+    </div>
+    <div style="text-align:right;margin-top:14px">
+      <button class="btn btn-ghost" onclick="closeModal()">Sluiten</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── NAVIGATION ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const map = {dashboard:0, nieuw:1, rapporten:2, instellingen:3};
+  document.querySelectorAll('.nav-item')[map[id]]?.classList.add('active');
+  if (id === 'nieuw') goStep(1);
+  window.scrollTo(0,0);
+}
+
+// ── WIZARD ──
+let currentStep = 1;
+function goStep(n) {
+  for (let i=1;i<=4;i++) {
+    const el = document.getElementById('step-'+i);
+    if(el) el.style.display = (i===n)?'block':'none';
+    const ws = document.getElementById('wstep-'+i);
+    if(ws) {
+      ws.classList.remove('active','done');
+      if(i===n) ws.classList.add('active');
+      else if(i<n) ws.classList.add('done');
+    }
+  }
+  currentStep = n;
+}
+
+// ── RECORDING ──
+let recording=false, timer=null, seconds=0;
+function toggleRecord() {
+  recording = !recording;
+  const btn = document.getElementById('recordBtn');
+  const icon = document.getElementById('recordIcon');
+  const text = document.getElementById('recordText');
+  if(recording) {
+    btn.classList.add('recording');
+    icon.textContent = '⏹';
+    text.textContent = 'Opname bezig — klik om te stoppen';
+    timer = setInterval(()=>{ seconds++; document.getElementById('recordTimer').textContent=Math.floor(seconds/60)+':'+(seconds%60<10?'0':'')+seconds%60; },1000);
+  } else {
+    btn.classList.remove('recording');
+    icon.textContent = '✓';
+    text.textContent = 'Opname gestopt (' + Math.floor(seconds/60) + ':' + (seconds%60<10?'0':'') + seconds%60 + ')';
+    clearInterval(timer);
+    document.getElementById('transcriptCard').style.display = 'block';
+  }
+}
+function processDebrief() {
+  document.getElementById('processingCard').style.display = 'block';
+  setTimeout(()=>{
+    document.getElementById('pstep2').classList.remove('active'); document.getElementById('pstep2').classList.add('done');
+    document.getElementById('pstep3').classList.add('active');
+  }, 800);
+  setTimeout(()=>{
+    document.getElementById('pstep3').classList.remove('active'); document.getElementById('pstep3').classList.add('done');
+    goStep(3);
+  }, 1800);
+}
+
+// ── CHIPS ──
+function toggleChip(el) { el.classList.toggle('done'); }
+
+// ── TEMPLATES ──
+function selectTemplate(el) {
+  document.querySelectorAll('.template-card').forEach(t=>t.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── NEXT ACTIONS ──
+function toggleNA(el) {
+  el.classList.toggle('selected');
+  el.querySelector('.na-check').textContent = el.classList.contains('selected') ? '✓' : '';
+}
+
+// ── MODAL ──
+function openModal() { document.getElementById('agendaModal').classList.add('open'); }
+function closeModal() { document.getElementById('agendaModal').classList.remove('open'); }
+
+// ── FILTERS ──
+function setFilter(el) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── FINISH ──
+function finishVisit() {
+  alert('Bezoek afgerond! PDF verstuurd naar Peter Bakker en gesynchroniseerd met CRM.');
+  showScreen('dashboard');
+}
+
+// Toggles
+document.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', function() { this.classList.toggle('on'); }));
+</script>
 </body>
 </html>
